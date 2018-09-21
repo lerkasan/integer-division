@@ -1,6 +1,5 @@
-package ua.com.foxminded.integer_division;
+package ua.com.foxminded.integerdivision;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigInteger;
@@ -12,18 +11,14 @@ public class IntegerDivisionTest {
 
     private static IntegerDivision underTest;
     private static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
-    private static final String NULL_ARGUMENT_MESSAGE = "Dividend or divisor is a null argument";
-
-    @BeforeAll
-    private static void setUp() {
-        underTest = new IntegerDivision();
-    }
+    private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
     void testPrintLongDivisionWithZeroDividend() {
         BigInteger dividend = BigInteger.valueOf(0);
         BigInteger divisor = BigInteger.valueOf(14);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_0 | 14\n" +
                 " 0 |---\n" +
@@ -36,7 +31,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithAbsDividendEqualsAbsDivisor() {
         BigInteger dividend = BigInteger.valueOf(-78);
         BigInteger divisor = BigInteger.valueOf(78);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_-78 | 78\n" +
                 "  78 |----\n" +
@@ -49,7 +45,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithDividendEqualDivisor() {
         BigInteger dividend = BigInteger.valueOf(14);
         BigInteger divisor = BigInteger.valueOf(14);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_14 | 14\n" +
                 " 14 |---\n" +
@@ -62,12 +59,13 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithDivisorIsSubstringOfNegativeDividend() {
         BigInteger dividend = BigInteger.valueOf(-1234);
         BigInteger divisor = BigInteger.valueOf(123);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_-1234 | 123\n" +
                 "  1230 |-----\n" +
                 "  ---- | -10\n" +
-                "     4";
+                "    -4";
         assertEquals(expected, actual);
     }
 
@@ -75,7 +73,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithDivisorIsSubstringOfPositiveDividend() {
         BigInteger dividend = BigInteger.valueOf(123457);
         BigInteger divisor = BigInteger.valueOf(123);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_123457 | 123\n" +
                 " 1230   |------\n" +
@@ -91,7 +90,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithAbsDividendLessThanAbsDivisor() {
         BigInteger dividend = BigInteger.valueOf(235);
         BigInteger divisor = BigInteger.valueOf(972);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_235 | 972\n" +
                 "   0 |---\n" +
@@ -104,7 +104,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithDividendMuchMoreThanDivisor() {
         BigInteger dividend = BigInteger.valueOf(2071462334);
         BigInteger divisor = BigInteger.valueOf(9);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_2071462334 | 9\n" +
                 " 18         |-----------\n" +
@@ -138,7 +139,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithBigIntegers() {
         BigInteger dividend = new BigInteger("063782071731462398534");
         BigInteger divisor =  new BigInteger("7521654673");
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_63782071731462398534 | 7521654673\n" +
                 " 60173237384          |------------\n" +
@@ -178,7 +180,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithNegativeDividendAndPositiveDivisor() {
         BigInteger dividend = BigInteger.valueOf(-4257583);
         BigInteger divisor = BigInteger.valueOf(812);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_-4257583 | 812\n" +
                 "  4060    |-------\n" +
@@ -192,7 +195,7 @@ public class IntegerDivisionTest {
                 "    _2703\n" +
                 "     2436\n" +
                 "     ----\n" +
-                "      267";
+                "     -267";
         assertEquals(expected, actual);
     }
 
@@ -200,7 +203,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithPositiveDividendAndNegativeDivisor() {
         BigInteger dividend = BigInteger.valueOf(4257583);
         BigInteger divisor = BigInteger.valueOf(-812);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_4257583 | -812\n" +
                 " 4060    |-------\n" +
@@ -222,7 +226,8 @@ public class IntegerDivisionTest {
     void testPrintLongDivisionWithNegativeDividendAndNegativeDivisor() {
         BigInteger dividend = BigInteger.valueOf(-4257583);
         BigInteger divisor = BigInteger.valueOf(-812);
-        String actual = underTest.printLongDivision(dividend, divisor);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
         String expected =
                 "_-4257583 | -812\n" +
                 "  4060    |------\n" +
@@ -236,25 +241,32 @@ public class IntegerDivisionTest {
                 "    _2703\n" +
                 "     2436\n" +
                 "     ----\n" +
-                "      267";
+                "     -267";
         assertEquals(expected, actual);
     }
 
     @Test
     void testPrintLongDivisionWithNullDividend() {
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.printLongDivision(null, BigInteger.valueOf(64373)));
+        BigInteger divisor = BigInteger.valueOf(-812);
+        underTest = new IntegerDivision(null,  divisor);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
         assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
     void testPrintLongDivisionWithNullDivisor() {
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.printLongDivision( BigInteger.valueOf(64373), null));
+        BigInteger dividend = BigInteger.valueOf(-812);
+        underTest = new IntegerDivision(dividend, null);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
         assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
     void testPrintLongDivisionWithZeroDivisor() {
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.printLongDivision( BigInteger.valueOf(-8064373), BigInteger.ZERO));
+        BigInteger dividend = BigInteger.valueOf(-813632);
+        BigInteger divisor = BigInteger.ZERO;
+        underTest = new IntegerDivision(dividend,  divisor);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
         assertEquals(DIVISION_BY_ZERO_MESSAGE, exception.getMessage());
     }
 }
