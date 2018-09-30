@@ -31,12 +31,12 @@ public class IntegerDivision extends Operation {
         }
     }
 
-    private class IntermediateDivisionResult {
+    private class IntermediateDivisionResult extends Result{
         private BigInteger minuend;
         private BigInteger subtrahend;
         private BigInteger difference;
         private BigInteger quotient;
-        private int rearIndex;
+
 
         private IntermediateDivisionResult() {
             this.minuend = BigInteger.ZERO;
@@ -53,21 +53,6 @@ public class IntegerDivision extends Operation {
             this.quotient = quotient;
             this.rearIndex = rearIndex;
         }
-    }
-
-    private void checkIndexRange(BigInteger number, int index) {
-        BigInteger absoluteNumber = number.abs();
-        int numberLength = String.valueOf(absoluteNumber).length();
-        if ((index >= numberLength) || (index < 0)) {
-            throw new IllegalArgumentException(Operation.ILLEGAL_INDEX_MESSAGE);
-        }
-    }
-
-    private int findDigitAtIndex(BigInteger number, int index) {
-        checkIndexRange(number, index);
-        BigInteger absoluteNumber = number.abs();
-        char charAtIndex = String.valueOf(absoluteNumber).charAt(index);
-        return Integer.valueOf(String.valueOf(charAtIndex));
     }
 
     private BigInteger findFirstDigits(BigInteger number, int index) {

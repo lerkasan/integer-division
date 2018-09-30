@@ -25,10 +25,26 @@ abstract class Operation {
         this.operands = operands;
     }
 
+    protected class Result {
+        protected int rearIndex;
+    }
+
     abstract Result calculate();
 
     public abstract String toString();
 
-    protected class Result {
+    protected void checkIndexRange(BigInteger number, int index) {
+        BigInteger absoluteNumber = number.abs();
+        int numberLength = String.valueOf(absoluteNumber).length();
+        if ((index >= numberLength) || (index < 0)) {
+            throw new IllegalArgumentException(Operation.ILLEGAL_INDEX_MESSAGE);
+        }
+    }
+
+    protected int findDigitAtIndex(BigInteger number, int index) {
+        checkIndexRange(number, index);
+        BigInteger absoluteNumber = number.abs();
+        char charAtIndex = String.valueOf(absoluteNumber).charAt(index);
+        return Integer.valueOf(String.valueOf(charAtIndex));
     }
 }

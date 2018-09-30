@@ -6,6 +6,48 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        IntegerAddition addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("876131345924584627"), new BigInteger("-75491249882053"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("876131345924584627"), new BigInteger("75491249882053"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("0"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("0"), new BigInteger("-75491249882053"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("0"), new BigInteger("0"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("923"), new BigInteger("21123"));
+        System.out.println(addition);
+
+        System.out.println("Negative numbers");
+        addition = new IntegerAddition(new BigInteger("-123"), new BigInteger("123"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("123"), new BigInteger("-123"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("0"), new BigInteger("-123"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("-123"), new BigInteger("0"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("-123"), new BigInteger("-123"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("57425"), new BigInteger("-89"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("-89"), new BigInteger("57425"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("89"), new BigInteger("-57425"));
+        System.out.println(addition);
+        addition = new IntegerAddition(new BigInteger("-57425"), new BigInteger("89"));
+        System.out.println(addition);
+
         Scanner in = new Scanner(System.in);
         System.out.println("\nDividing integers. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");
         String dividend = "";
