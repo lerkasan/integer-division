@@ -1,5 +1,6 @@
 package ua.com.foxminded.integerdivision;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -11,6 +12,12 @@ public class Main {
 
         substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
         System.out.println(substraction);
+
+        try {
+            System.out.println(substraction.toJson());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         substraction = new IntegerSubstraction(new BigInteger("876131345924584627"), new BigInteger("75491249882053"));
         System.out.println(substraction);
@@ -133,5 +140,10 @@ public class Main {
         System.out.println(division.toString());
         division = new IntegerDivision(BigInteger.valueOf(-4257583), BigInteger.valueOf(-812));
         System.out.println(division.toString());
+        try {
+            System.out.println(division.toJson());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

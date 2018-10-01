@@ -1,5 +1,9 @@
 package ua.com.foxminded.integerdivision;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -32,6 +36,13 @@ abstract class Operation {
     abstract Result calculate();
 
     public abstract String toString();
+
+    public String toJson() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        Result result = calculate();
+        return objectMapper.writeValueAsString(result);
+    }
 
     protected void checkIndexRange(BigInteger number, int index) {
         BigInteger absoluteNumber = number.abs();

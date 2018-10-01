@@ -1,5 +1,6 @@
 package ua.com.foxminded.integerdivision;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,10 @@ public class IntegerAddition extends Operation {
     }
 
     protected class AdditionResult extends Result {
+        @JsonProperty
         private String sum;
+
+        @JsonProperty
         private List<IntermediateAdditionResult> steps;
 
         private AdditionResult() {
@@ -33,7 +37,10 @@ public class IntegerAddition extends Operation {
     }
 
     private class IntermediateAdditionResult extends Result {
+        @JsonProperty
         private int digit;
+
+        @JsonProperty
         private int memorized;
     }
 
@@ -198,5 +205,4 @@ public class IntegerAddition extends Operation {
         }
         return result;
     }
-
 }

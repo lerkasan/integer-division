@@ -1,5 +1,6 @@
 package ua.com.foxminded.integerdivision;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +19,13 @@ public class IntegerDivision extends Operation {
     }
 
     private class DivisionResult extends Result {
+        @JsonProperty
         private BigInteger quotient;
+
+        @JsonProperty
         private BigInteger remainder;
+
+        @JsonProperty
         private List<IntermediateDivisionResult> steps;
 
         private DivisionResult() {}
@@ -32,9 +38,16 @@ public class IntegerDivision extends Operation {
     }
 
     private class IntermediateDivisionResult extends Result{
+        @JsonProperty
         private BigInteger minuend;
+
+        @JsonProperty
         private BigInteger subtrahend;
+
+        @JsonProperty
         private BigInteger difference;
+
+        @JsonProperty
         private BigInteger quotient;
 
 
@@ -120,7 +133,8 @@ public class IntegerDivision extends Operation {
            result.remainder = BigInteger.valueOf(-1).multiply(stepResults.get(stepResults.size() - 1).difference);
            stepResults.get(stepResults.size() - 1).difference = result.remainder;
         }
-        return new DivisionResult(result.quotient, result.remainder, stepResults);
+        BigInteger wholeQuotient = calculateWholeQuotient(stepResults);
+        return new DivisionResult(wholeQuotient, result.remainder, stepResults);
     }
 
     private BigInteger calculateWholeQuotient(List<IntermediateDivisionResult> stepResults) {
