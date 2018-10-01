@@ -137,24 +137,9 @@ public class IntegerDivision extends Operation {
         return quotient;
     }
 
-    private String getRepeatingSymbols(String symbols, int repeatAmount) {
-        StringBuilder repeatingSymbols = new StringBuilder();
-        for (int i = 0; i < repeatAmount; i++) {
-            repeatingSymbols.append(symbols);
-        }
-        return  repeatingSymbols.toString();
-    }
-
-    private String getOffsetSpaces(int offset) {
-        return getRepeatingSymbols(" ", offset);
-    }
-
-    private String getLine(int length) {
-        return getRepeatingSymbols("-", length);
-    }
-
     @Override
     public String toString() {
+        Formatter formatter = new Formatter();
         StringBuilder resultToPrint = new StringBuilder();
         if ((dividend == null) || (divisor == null)) {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
@@ -181,26 +166,26 @@ public class IntegerDivision extends Operation {
                 additionalOffsetForVertical = " ";
             }
             if ((stepCounter > 0) && (!BigInteger.ZERO.equals(step.subtrahend))) {
-                resultToPrint.append(getOffsetSpaces(offsetMinuend) + "_" + step.minuend + "\n");
+                resultToPrint.append(formatter.getOffsetSpaces(offsetMinuend) + "_" + step.minuend + "\n");
             }
             if ((!BigInteger.ZERO.equals(step.subtrahend)) || (stepResults.size() == 1)) {
                 if (stepCounter == 0) {
                     BigInteger quotient = calculateWholeQuotient(stepResults);
                     int quotientLength = String.valueOf(quotient).length();
-                    resultToPrint.append(getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend
-                            + getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1));
-                    resultToPrint.append(additionalOffsetForVertical + "|" + getLine(quotientLength + 2) + "\n");
-                    resultToPrint.append(getOffsetSpaces(offsetSubtrahend + 1) + getLine(subtrahendLength)
-                            + getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1)
+                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend
+                            + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1));
+                    resultToPrint.append(additionalOffsetForVertical + "|" + formatter.getLine(quotientLength + 2) + "\n");
+                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength)
+                            + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1)
                             + additionalOffsetForVertical + "| " + quotient + "\n");
                 } else {
-                    resultToPrint.append(getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend);
-                    resultToPrint.append("\n" + getOffsetSpaces(offsetSubtrahend + 1) + getLine(subtrahendLength) + "\n");
+                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend);
+                    resultToPrint.append("\n" + formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength) + "\n");
                 }
             }
             stepCounter++;
             if (stepCounter == stepResults.size()) {
-                resultToPrint.append(getOffsetSpaces(offsetRemainder) + step.difference);
+                resultToPrint.append(formatter.getOffsetSpaces(offsetRemainder) + step.difference);
             }
         }
         return resultToPrint.toString();

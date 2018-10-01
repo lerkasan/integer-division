@@ -6,6 +6,20 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
+        System.out.println(substraction);
+
+        substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
+        System.out.println(substraction);
+
+        substraction = new IntegerSubstraction(new BigInteger("876131345924584627"), new BigInteger("75491249882053"));
+        System.out.println(substraction);
+
+        substraction = new IntegerSubstraction(new BigInteger("876131345924584627"), new BigInteger("-75491249882053"));
+        System.out.println(substraction);
+
+        System.out.println("Addition");
+
         IntegerAddition addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(addition);
 

@@ -15,7 +15,7 @@ public class IntegerAddition extends Operation {
         this.secondAddend = secondAddend;
     }
 
-    private class AdditionResult extends Result {
+    protected class AdditionResult extends Result {
         private String sum;
         private List<IntermediateAdditionResult> steps;
 
@@ -53,16 +53,22 @@ public class IntegerAddition extends Operation {
         }
         if ((BigInteger.ZERO.compareTo(firstAddend) > 0) && (BigInteger.ZERO.compareTo(secondAddend) > 0)) {
              AdditionResult positiveResult = addDigits(firstAddend, secondAddend);
-             String sum = "-" + positiveResult.sum;
-             return new AdditionResult(sum, positiveResult.steps);
+             if (!"0".equals(positiveResult.sum)) {
+                 String sum = "-" + positiveResult.sum;
+                 return new AdditionResult(sum, positiveResult.steps);
+             }
+             return positiveResult;
         }
         String sum ="";
         if ((BigInteger.ZERO.compareTo(firstAddend) > 0) && (BigInteger.ZERO.compareTo(secondAddend) < 0)) {
             AdditionResult invertedResult = substractDigits(firstAddend, secondAddend);
-            char firstCharOfSum = invertedResult.sum.charAt(0);
-            if (firstCharOfSum == '-') {
+            char firstCharOfInvertedSum = invertedResult.sum.charAt(0);
+            if (firstCharOfInvertedSum == '-') {
                 sum = invertedResult.sum.substring(1);
             } else {
+                if ("0".equals(invertedResult.sum)) {
+                    return invertedResult;
+                }
                 sum = "-" + invertedResult.sum;
             }
             return new AdditionResult(sum, invertedResult.steps);
@@ -87,11 +93,12 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = findDigitAtIndex(firstAddend.abs(), index);
+                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = findDigitAtIndex(secondAddend.abs(), index - lengthDelta);
+                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
+
                 step.digit = (firstDigit + secondDigit + previousMemorized) % 10;
                 step.memorized = (firstDigit + secondDigit) / 10;
                 previousMemorized = step.memorized;
@@ -102,10 +109,8 @@ public class IntegerAddition extends Operation {
             if (lastStep.memorized != 0) {
                 sum.append(lastStep.memorized);
             }
-            for (int index = steps.size() - 1; index >= 0; index--) {
-                sum.append(steps.get(index).digit);
-            }
-            return new AdditionResult(sum.toString(), steps);
+            String finalSum = combineSumDigits((List<IntermediateAdditionResult>) steps, sum);
+            return new AdditionResult(finalSum, steps);
         } else {
             return addDigits(secondAddend, firstAddend);
         }
@@ -125,11 +130,12 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = findDigitAtIndex(firstAddend.abs(), index);
+                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = findDigitAtIndex(secondAddend.abs(), index - lengthDelta);
+                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
+
                 if (firstDigit < secondDigit) {
                     step.memorized = -1;
                 }
@@ -139,21 +145,58 @@ public class IntegerAddition extends Operation {
             }
             StringBuilder sum = new StringBuilder();
             IntermediateAdditionResult lastStep = steps.get(steps.size() - 1);
-//            if (lastStep.memorized != 0) {
-//                sum.append(lastStep.memorized);
-//            }
-            for (int index = steps.size() - 1; index >= 0; index--) {
-                sum.append(steps.get(index).digit);
-            }
-            return new AdditionResult(sum.toString(), steps);
+            String finalSum = combineSumDigits(steps, sum);
+            return new AdditionResult(finalSum, steps);
         } else {
             AdditionResult negativeResult = substractDigits(BigInteger.valueOf(-1).multiply(secondAddend), BigInteger.valueOf(-1).multiply(firstAddend));
-            return new AdditionResult("-" + negativeResult.sum, negativeResult.steps);
+            if (!"0".equals(negativeResult.sum)) {
+                String finalSum = "-" + negativeResult.sum;
+                return new AdditionResult(finalSum, negativeResult.steps);
+            }
+            return negativeResult;
         }
     }
 
+    private String combineSumDigits(List<IntermediateAdditionResult> steps, StringBuilder sum) {
+        for (int index = steps.size() - 1; index >= 0; index--) {
+            sum.append(steps.get(index).digit);
+        }
+        String finalSum = sum.toString();
+        if (BigInteger.ZERO.equals(new BigInteger(finalSum))) {
+            finalSum = "0";
+        }
+        return finalSum;
+    }
+
     public String toString() {
-        return calculate().sum;
+        String result = formatOutput('+');
+        System.out.println();
+        return result;
+    }
+
+    protected String formatOutput(char operationSign) {
+        Formatter formatter = new Formatter();
+        String result = "";
+        String sum = calculate().sum;
+        int firstAddendLength = firstAddend.toString().length();
+        int secondAddendLength = secondAddend.toString().length();
+        int firstAddendOffset = sum.length() - firstAddendLength;
+        int secondAddendOffset = sum.length() - secondAddendLength;
+        int maxLengthOfAddend = firstAddendLength >= secondAddendLength ? firstAddendLength : secondAddendLength;
+        if (sum.length() >= maxLengthOfAddend) {
+            result = formatter.getOffsetSpaces(firstAddendOffset + 2) + firstAddend + "\n"
+                    + formatter.getOffsetSpaces(secondAddendOffset + 2) + secondAddend + "\n"
+                    + operationSign + " " + formatter.getLine(sum.length()) + "\n"
+                    + formatter.getOffsetSpaces(2) + sum;
+        } else {
+            firstAddendOffset = maxLengthOfAddend - firstAddendLength;
+            secondAddendOffset = maxLengthOfAddend - secondAddendLength;
+            result = formatter.getOffsetSpaces(firstAddendOffset + 2) + firstAddend + "\n"
+                    + formatter.getOffsetSpaces(secondAddendOffset + 2) + secondAddend + "\n"
+                    + operationSign + " " + formatter.getLine(maxLengthOfAddend) + "\n"
+                    + formatter.getOffsetSpaces(maxLengthOfAddend - sum.length() + 2) + sum;
+        }
+        return result;
     }
 
 }
