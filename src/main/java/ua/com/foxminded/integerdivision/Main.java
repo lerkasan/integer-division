@@ -7,6 +7,31 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        IntegerMultiplication multiplication = new IntegerMultiplication(new BigInteger("2685"), new BigInteger("17"));
+        System.out.println(multiplication);
+        try {
+            System.out.println(multiplication.toJson());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        multiplication = new IntegerMultiplication(new BigInteger("2685043"), new BigInteger("176"));
+        System.out.println(multiplication);
+        try {
+            System.out.println(multiplication.toJson());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        multiplication = new IntegerMultiplication(new BigInteger("-2685043"), new BigInteger("176"));
+        System.out.println(multiplication);
+
+        multiplication = new IntegerMultiplication(new BigInteger("2685"), new BigInteger("-17"));
+        System.out.println(multiplication);
+
+        multiplication = new IntegerMultiplication(new BigInteger("-2685"), new BigInteger("-17"));
+        System.out.println(multiplication);
+
         IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(substraction);
 
@@ -28,6 +53,9 @@ public class Main {
         System.out.println("Addition");
 
         IntegerAddition addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("18795"), new BigInteger("26850"));
         System.out.println(addition);
 
         addition = new IntegerAddition(new BigInteger("876131345924584627"), new BigInteger("-75491249882053"));

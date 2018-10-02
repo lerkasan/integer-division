@@ -34,6 +34,10 @@ public class IntegerAddition extends Operation {
             this.sum = sum;
             this.steps = steps;
         }
+
+        public String getSum() {
+            return sum;
+        }
     }
 
     private class IntermediateAdditionResult extends Result {
@@ -106,8 +110,9 @@ public class IntegerAddition extends Operation {
                     secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
 
+//                step.digit = (firstDigit + secondDigit + step.memorized) % 10;
                 step.digit = (firstDigit + secondDigit + previousMemorized) % 10;
-                step.memorized = (firstDigit + secondDigit) / 10;
+                step.memorized = (firstDigit + secondDigit + previousMemorized) / 10;
                 previousMemorized = step.memorized;
                 steps.add(step);
             }
