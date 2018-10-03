@@ -23,6 +23,15 @@ public class Main {
             e.printStackTrace();
         }
 
+        multiplication = new IntegerMultiplication(new BigInteger("2685043"), new BigInteger("-176"));
+        System.out.println(multiplication);
+
+        multiplication = new IntegerMultiplication(new BigInteger("-2685043"), new BigInteger("176"));
+        System.out.println(multiplication);
+
+        multiplication = new IntegerMultiplication(new BigInteger("-176"), new BigInteger("-2685043"));
+        System.out.println(multiplication);
+
         multiplication = new IntegerMultiplication(new BigInteger("-2685043"), new BigInteger("176"));
         System.out.println(multiplication);
 
@@ -31,6 +40,12 @@ public class Main {
 
         multiplication = new IntegerMultiplication(new BigInteger("-2685"), new BigInteger("-17"));
         System.out.println(multiplication);
+
+//        multiplication = new IntegerMultiplication(new BigInteger("0"), new BigInteger("-17"));
+//        System.out.println(multiplication);
+
+//        multiplication = new IntegerMultiplication(new BigInteger("-2685"), new BigInteger("0"));
+//        System.out.println(multiplication);
 
         IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(substraction);

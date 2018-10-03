@@ -155,9 +155,6 @@ public class IntegerDivision extends Operation {
     public String toString() {
         Formatter formatter = new Formatter();
         StringBuilder resultToPrint = new StringBuilder();
-        if ((dividend == null) || (divisor == null)) {
-            throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
-        }
         DivisionResult result = calculate();
         List<IntermediateDivisionResult> stepResults = result.steps;
         BigInteger absoluteDividend = dividend.abs();

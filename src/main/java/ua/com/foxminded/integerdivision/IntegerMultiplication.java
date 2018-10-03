@@ -73,6 +73,7 @@ public class IntegerMultiplication extends Operation {
                 digits.add(memorized);
             }
             step.addend = combineAddendDigits(digits);
+            step.rearIndex = multiplierLength - multiplierIndex - 1;
 //            step.rearIndex = multiplierIndex - multiplierLength - 1;
             steps.add(step);
         }
@@ -108,6 +109,27 @@ public class IntegerMultiplication extends Operation {
     }
 
     public String toString() {
-        return calculate().product;
+        Formatter formatter = new Formatter();
+        MultiplicationResult result = calculate();
+        int multiplicandLength = multiplicand.toString().length();
+        int multiplierLength = multiplier.toString().length();
+        int productLength = result.product.length();
+        int operandMaxLength = multiplierLength > multiplicandLength ? multiplierLength : multiplicandLength;
+        int maxLength = operandMaxLength > productLength ? operandMaxLength : productLength;
+        int multiplicandOffset = maxLength - multiplicandLength;
+        int multiplierOffset = maxLength - multiplierLength;
+        int productOffset = maxLength - productLength;
+
+        String output = formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
+                + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
+                + "* " + formatter.getLine(productLength) + "\n";
+        for (IntermediateMultiplicationResult step : result.steps) {
+            int addendOffset = maxLength - step.addend.length();
+            output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+        }
+        output += "+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n"
+                + formatter.getOffsetSpaces(productOffset + 2) + result.product;
+        System.out.println();
+        return output;
     }
 }
