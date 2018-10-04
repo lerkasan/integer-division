@@ -93,9 +93,7 @@ public class IntegerMultiplication extends Operation {
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
             IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).addend + zerosAtAddendTail));
-            System.out.println("addend " + steps.get(index).addend + zerosAtAddendTail);
             sum = addition.calculate().getSum();
-            System.out.println("step sum " + sum);
         }
         return sum;
     }
@@ -122,13 +120,15 @@ public class IntegerMultiplication extends Operation {
 
         String output = formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
                 + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
-                + "* " + formatter.getLine(productLength) + "\n";
-        for (IntermediateMultiplicationResult step : result.steps) {
-            int addendOffset = maxLength - step.addend.length();
-            output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+                + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n";
+        if (!"0".equals(result.product)) {
+            for (IntermediateMultiplicationResult step : result.steps) {
+                int addendOffset = maxLength - step.addend.length();
+                output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+            }
+            output += "+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n";
         }
-        output += "+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n"
-                + formatter.getOffsetSpaces(productOffset + 2) + result.product;
+        output += formatter.getOffsetSpaces(productOffset + 2) + result.product;
         System.out.println();
         return output;
     }
