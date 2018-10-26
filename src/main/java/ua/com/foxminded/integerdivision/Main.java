@@ -7,6 +7,30 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        IntegerAddition addition = new IntegerAddition(new BigInteger("-14"), new BigInteger("16"));
+        System.out.println(addition);
+
+        String expression = "98 + 7 * 2-36/4 + 3*(-4+16)";
+        MathExpressionParser mathParser = new MathExpressionParser();
+        System.out.println(mathParser.convertInfixToPostfix(expression));
+        boolean verbose = true;
+        System.out.println(mathParser.convertInfixToPostfix("-14+16"));
+        System.out.println(mathParser.evaluate("-14+16", verbose));
+        System.out.println(mathParser.evaluate(expression, verbose));
+        System.out.println();
+        System.out.println(mathParser.convertInfixToPostfix("5+7-4"));
+        System.out.println(mathParser.evaluate("5+7-4", verbose));
+        System.out.println();
+        System.out.println(mathParser.convertInfixToPostfix("5+7*4"));
+        System.out.println(mathParser.evaluate("5+7*4", verbose));
+        System.out.println();
+        System.out.println(mathParser.convertInfixToPostfix("5*(7+4)"));
+        System.out.println(mathParser.evaluate("5*(7+4)", verbose));
+        System.out.println();
+        System.out.println(mathParser.convertInfixToPostfix("15*(2+3)-44/(5+6)"));
+        System.out.println(mathParser.evaluate("15*(2+3)-44/(5+6)", verbose));
+        System.out.println();
+
         IntegerMultiplication multiplication = new IntegerMultiplication(new BigInteger("2685"), new BigInteger("17"));
         System.out.println(multiplication);
         try {
@@ -85,7 +109,7 @@ public class Main {
 
         System.out.println("Addition");
 
-        IntegerAddition addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
+        addition = new IntegerAddition(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(addition);
 
         addition = new IntegerAddition(new BigInteger("18795"), new BigInteger("26850"));

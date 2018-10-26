@@ -34,10 +34,6 @@ public class IntegerAddition extends Operation {
             this.sum = sum;
             this.steps = steps;
         }
-
-        public String getSum() {
-            return sum;
-        }
     }
 
     private class IntermediateAdditionResult extends Result {
@@ -46,6 +42,10 @@ public class IntegerAddition extends Operation {
 
         @JsonProperty
         private int memorized;
+    }
+
+    public String getResult() {
+        return calculate().sum;
     }
 
     public AdditionResult calculate() {

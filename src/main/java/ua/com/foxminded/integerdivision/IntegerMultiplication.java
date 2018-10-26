@@ -42,6 +42,10 @@ public class IntegerMultiplication extends Operation {
         private String addend;
     }
 
+    public String getProduct() {
+        return calculate().product;
+    }
+
     public IntegerMultiplication.MultiplicationResult calculate() {
         if ((multiplicand == null) || (multiplier == null)) {
             throw new IllegalArgumentException(this.NULL_ARGUMENT_MESSAGE);
@@ -93,7 +97,7 @@ public class IntegerMultiplication extends Operation {
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
             IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).addend + zerosAtAddendTail));
-            sum = addition.calculate().getSum();
+            sum = addition.getResult();
         }
         return sum;
     }

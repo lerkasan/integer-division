@@ -151,6 +151,10 @@ public class IntegerDivision extends Operation {
         return quotient;
     }
 
+    public String getQuotient() {
+        return calculate().quotient.toString();
+    }
+
     @Override
     public String toString() {
         Formatter formatter = new Formatter();
