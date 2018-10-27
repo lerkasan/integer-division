@@ -12,11 +12,12 @@ public class Main {
 
         String expression = "98 + 7 * 2-36/4 + 3*(-4+16)";
         MathExpressionParser mathParser = new MathExpressionParser();
-        System.out.println(mathParser.convertInfixToPostfix(expression));
+        System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
         boolean verbose = true;
+        System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+        System.out.println();
         System.out.println(mathParser.convertInfixToPostfix("-14+16"));
         System.out.println(mathParser.evaluate("-14+16", verbose));
-        System.out.println(mathParser.evaluate(expression, verbose));
         System.out.println();
         System.out.println(mathParser.convertInfixToPostfix("5+7-4"));
         System.out.println(mathParser.evaluate("5+7-4", verbose));
@@ -94,6 +95,10 @@ public class Main {
 
         substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
         System.out.println(substraction);
+
+        substraction = new IntegerSubstraction(new BigInteger("14"), new BigInteger("16"));
+        System.out.println(substraction);
+
 
         try {
             System.out.println(substraction.toJson());

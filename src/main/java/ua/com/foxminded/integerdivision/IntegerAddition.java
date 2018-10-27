@@ -72,17 +72,18 @@ public class IntegerAddition extends Operation {
         }
         String sum ="";
         if ((BigInteger.ZERO.compareTo(firstAddend) > 0) && (BigInteger.ZERO.compareTo(secondAddend) < 0)) {
-            AdditionResult invertedResult = substractDigits(firstAddend, secondAddend);
-            char firstCharOfInvertedSum = invertedResult.sum.charAt(0);
-            if (firstCharOfInvertedSum == '-') {
-                sum = invertedResult.sum.substring(1);
-            } else {
-                if ("0".equals(invertedResult.sum)) {
-                    return invertedResult;
-                }
-                sum = "-" + invertedResult.sum;
-            }
-            return new AdditionResult(sum, invertedResult.steps);
+            return substractDigits(secondAddend, firstAddend);
+//            AdditionResult invertedResult = substractDigits(firstAddend, secondAddend);
+//            char firstCharOfInvertedSum = invertedResult.sum.charAt(0);
+//            if (firstCharOfInvertedSum == '-') {
+//                sum = invertedResult.sum.substring(1);
+//            } else {
+//                if ("0".equals(invertedResult.sum)) {
+//                    return invertedResult;
+//                }
+//                sum = "-" + invertedResult.sum;
+//            }
+//            return new AdditionResult(sum, invertedResult.steps);
         }
         if ((BigInteger.ZERO.compareTo(firstAddend) < 0) && (BigInteger.ZERO.compareTo(secondAddend) > 0)) {
             return substractDigits(firstAddend, secondAddend);

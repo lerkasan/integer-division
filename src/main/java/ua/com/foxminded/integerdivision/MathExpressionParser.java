@@ -37,8 +37,8 @@ public class MathExpressionParser {
 
                     case '+':
                     case '-':
-                        if (postfix == "") {
-                            postfix = "0";
+                        if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
+                            postfix =  postfix.trim() + " 0 ";
                         }
                         postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
                         break;
@@ -46,13 +46,6 @@ public class MathExpressionParser {
                     case '/':
                         postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
                         break;
-
-//                    case '+':
-//                    case '-':
-//                    case '*':
-//                    case '/':
-//                        postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
-//                        break;
 
                     case ' ':
                         break;
@@ -110,6 +103,7 @@ public class MathExpressionParser {
         char[] postfixChars = postfix.toCharArray();
         Deque<String> operandStack = new ArrayDeque<>();
         String operand = "";
+        int step = 0;
         for (char postfixchar : postfixChars) {
             if (Character.isDigit(postfixchar)) {
                 operand += postfixchar;
@@ -134,6 +128,8 @@ public class MathExpressionParser {
                             IntegerAddition addition = new IntegerAddition(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = addition.getResult();
                             if (verbose) {
+                                step++;
+                                System.out.printf("Step %d:\n", step);
                                 System.out.println(addition);
                                 System.out.println();
                             }
@@ -142,6 +138,8 @@ public class MathExpressionParser {
                             IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = substraction.getResult();
                             if (verbose) {
+                                step++;
+                                System.out.printf("Step %d:\n", step);
                                 System.out.println(substraction);
                                 System.out.println();
                             }
@@ -150,6 +148,8 @@ public class MathExpressionParser {
                             IntegerMultiplication multiplication = new IntegerMultiplication(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = multiplication.getProduct();
                             if (verbose) {
+                                step++;
+                                System.out.printf("Step %d:\n", step);
                                 System.out.println(multiplication);
                                 System.out.println();
                             }
@@ -159,6 +159,8 @@ public class MathExpressionParser {
                             IntegerDivision division = new IntegerDivision(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = division.getQuotient();
                             if (verbose) {
+                                step++;
+                                System.out.printf("Step %d:\n", step);
                                 System.out.println(division);
                                 System.out.println();
                             }
