@@ -6,13 +6,14 @@ import java.util.*;
 public class MathExpressionParser {
 
     private static final String NULL_INFIX = "Null infix string can't be converted to postfix.";
+    private static final String NULL_POSTFIX = "Null postix string can't be evaluated.";
     private static final String INVALID_SYMBOL = "Can't evaluate expression due to invalid symbol ";
     private static final String LETTERS_NOT_ALLOWED = "Letters are not allowed in arithmetic expressions. Invalid symbol ";
     private static final String DECIMALS_NOT_ALLOWED = "Only integer numbers are allowed in the expression. Invalid symbol ";
     private static final String WRONG_PARENTHESES_ORDER = "Wrong order of parentheses near position ";
     private static final String WRONG_OPERATOR_ORDER = "Wrong order of operators near symbol ";
 
-    private String replaceUnaryMinuses(String infix) {
+    protected String replaceUnaryMinuses(String infix) {
         if (infix == null) {
             throw new IllegalArgumentException(NULL_INFIX);
         }
@@ -51,7 +52,7 @@ public class MathExpressionParser {
             throw new IllegalArgumentException(NULL_INFIX);
         }
         String alteredInfix = replaceUnaryMinuses(infix);
-        System.out.println(alteredInfix);
+//        System.out.println(alteredInfix);
         char[] infixChars = alteredInfix.toCharArray();
         Deque<Character> operatorStack = new ArrayDeque<>();
         String postfix = "";
@@ -132,7 +133,7 @@ public class MathExpressionParser {
         while (!operatorStack.isEmpty()) {
             postfix = postfix.trim() + " " + operatorStack.pop() + " ";
         }
-        return  postfix;
+        return postfix.trim();
     }
 
     private String prioritizeStackOperators(Deque<Character> operatorStack, char infixChar) {
@@ -168,7 +169,7 @@ public class MathExpressionParser {
 
     public String evaluatePostfixExpression(String postfix, boolean verbose) {
         if (postfix == null) {
-            throw new IllegalArgumentException("Null postix string can't be evaluated.");
+            throw new IllegalArgumentException(NULL_POSTFIX);
         }
         char[] postfixChars = postfix.toCharArray();
         Deque<String> operandStack = new ArrayDeque<>();

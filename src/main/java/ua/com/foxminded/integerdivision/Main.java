@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
+        IntegerDivision division = new IntegerDivision(BigInteger.valueOf(48), BigInteger.valueOf(2));
+        System.out.println(division.toString());
+
         IntegerSubtraction substraction = new IntegerSubtraction(new BigInteger("14"), new BigInteger("16"));
         System.out.println(substraction);
 
@@ -199,7 +203,7 @@ public class Main {
                 divisor = in.next();
                 if (!"exit".equals(divisor)) {
                     try {
-                        IntegerDivision division = new IntegerDivision(new BigInteger(dividend), new BigInteger(divisor));
+                        division = new IntegerDivision(new BigInteger(dividend), new BigInteger(divisor));
                         System.out.println(division.toString());
                     } catch (NumberFormatException e) {
                         System.out.println("You entered not a numeric dividend or divisor.");
@@ -208,7 +212,7 @@ public class Main {
             }
         } while (!"exit".equals(dividend) && !"exit".equals(divisor));
 
-        IntegerDivision division = new IntegerDivision(BigInteger.ZERO, BigInteger.valueOf(14));
+        division = new IntegerDivision(BigInteger.ZERO, BigInteger.valueOf(14));
         System.out.println(division.toString());
         division = new IntegerDivision(BigInteger.valueOf(-78), BigInteger.valueOf(14));
         System.out.println(division.toString());
