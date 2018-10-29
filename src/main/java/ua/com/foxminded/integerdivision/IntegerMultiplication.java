@@ -125,7 +125,7 @@ public class IntegerMultiplication extends Operation {
         String output = formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
                 + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
                 + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n";
-        if (!"0".equals(result.product)) {
+        if (!"0".equals(result.product) && (result.steps.size() > 1)) {
             for (IntermediateMultiplicationResult step : result.steps) {
                 int addendOffset = maxLength - step.addend.length();
                 output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";

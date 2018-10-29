@@ -1,33 +1,81 @@
 package ua.com.foxminded.integerdivision;
 
 import java.math.BigInteger;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.*;
 
 public class MathExpressionParser {
+
+    private String replaceUnaryMinuses(String infix) {
+        if (infix == null) {
+            throw new IllegalArgumentException("Null infix string can't be converted to postfix.");
+        }
+        String infixWithoutSpaces = infix.replaceAll(" ", "");
+        String result = "";
+        Set<Character> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList('+', '-', '*', '/', '(')));
+        boolean isPreviousCharOperator = false;
+        boolean isParenthesesOpened = false;
+        char[] infixChars = infixWithoutSpaces.toCharArray();
+        for (int index = 0; index < infixChars.length; index++) {
+            boolean isLastCharacter = (index == infixChars.length - 1);
+            boolean isNextCharacterDigit = !isLastCharacter && Character.isDigit(infixChars[index + 1]);
+            if ((infixChars[index] == '-') && ((index == 0) || isPreviousCharOperator)) {
+                if (!isLastCharacter && isNextCharacterDigit) {
+                    result += "(0";
+                    isParenthesesOpened = true;
+                }
+            }
+            boolean isNextCharacterOperator = !isLastCharacter && !Character.isDigit(infixChars[index+1]);
+            result += infixChars[index];
+            if (isParenthesesOpened && (isLastCharacter || isNextCharacterOperator)) {
+                result += ")";
+                isParenthesesOpened = false;
+            }
+            if (operators.contains(infixChars[index])) {
+                isPreviousCharOperator = true;
+            } else {
+                isPreviousCharOperator = false;
+            }
+        }
+        return result;
+    }
 
     public String convertInfixToPostfix(String infix) {
         if (infix == null) {
             throw new IllegalArgumentException("Null infix string can't be converted to postfix.");
         }
-        String postfix = "";
-        char[] infixChars = infix.toCharArray();
+        String alteredInfix = replaceUnaryMinuses(infix);
+        System.out.println(alteredInfix);
+        char[] infixChars = alteredInfix.toCharArray();
         Deque<Character> operatorStack = new ArrayDeque<>();
+        String postfix = "";
+        int parenthesesCounter = 0;
+        int position = 0;
+        boolean isPreviousCharOperator = false;
+        Formatter formatter = new Formatter();
         for (char infixChar : infixChars) {
+            position++;
             if (Character.isLetter(infixChar)) {
-                throw new IllegalArgumentException("Letters are not allowed in arithmetic expressions.");
+                throw new IllegalArgumentException("Letters are not allowed in arithmetic expressions. Invalid symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
             }
             if (Character.isDigit(infixChar)) {
                 postfix += infixChar;
+                isPreviousCharOperator = false;
             } else {
-                char operatorFromStack;
+                char operatorFromStack = ' ';
                 switch (infixChar) {
                     case '(':
                         operatorStack.push(infixChar);
+                        isPreviousCharOperator = false;
+                        parenthesesCounter++;
                         break;
 
                     case ')':
-                        while (!operatorStack.isEmpty()) {
+                        if (parenthesesCounter <= 0) {
+                            throw new IllegalArgumentException("Wrong order of parentheses at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        }
+                        isPreviousCharOperator = false;
+                        parenthesesCounter--;
+                        while (!operatorStack.isEmpty() && (operatorFromStack != '(')) {
                             operatorFromStack = operatorStack.pop();
                             if (operatorFromStack != '(') {
                                 postfix = postfix.trim() + " " + operatorFromStack + " ";
@@ -37,13 +85,19 @@ public class MathExpressionParser {
 
                     case '+':
                     case '-':
-                        if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
-                            postfix =  postfix.trim() + " 0 ";
-                        }
-                        postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
-                        break;
                     case '*':
                     case '/':
+                        if ((isPreviousCharOperator) && (infixChar != '-')) {
+                            throw new IllegalArgumentException("Wrong order of operators near symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        }
+                        isPreviousCharOperator = true;
+                        if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
+//                            if (infixChar != '-') {
+                            if ((infixChar == '*') || (infixChar == '/')) {
+                                throw new IllegalArgumentException("Wrong order of operators near symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                            }
+//                            postfix =  postfix.trim() + " 0 ";
+                        }
                         postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
                         break;
 
@@ -52,12 +106,15 @@ public class MathExpressionParser {
 
                     case '.':
                     case ',':
-                        throw new IllegalArgumentException("Only integer numbers are allowed in the expression.");
+                        throw new IllegalArgumentException("Only integer numbers are allowed in the expression. Invalid symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
 
                     default:
-                        throw new IllegalArgumentException("Expression contains some invalid characters.");
+                        throw new IllegalArgumentException("Expression contains some invalid characters. Invalid symbol " + infixChar+ " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                 }
             }
+        }
+        if (parenthesesCounter != 0) {
+            throw new IllegalArgumentException("Invalid order of parentheses");
         }
         while (!operatorStack.isEmpty()) {
             postfix = postfix.trim() + " " + operatorStack.pop() + " ";
@@ -102,28 +159,35 @@ public class MathExpressionParser {
         }
         char[] postfixChars = postfix.toCharArray();
         Deque<String> operandStack = new ArrayDeque<>();
+        Formatter formatter = new Formatter();
         String operand = "";
+        String firstOperand = "";
+        String secondOperand = "";
         int step = 0;
-        for (char postfixchar : postfixChars) {
-            if (Character.isDigit(postfixchar)) {
-                operand += postfixchar;
+        int position = 0;
+        for (char postfixChar : postfixChars) {
+            position++;
+            if (Character.isDigit(postfixChar)) {
+                operand += postfixChar;
             } else {
                 if (operand != "") {
                     operandStack.push(operand);
                     operand = "";
                 }
-                if (postfixchar != ' ') {
-//                    if ((operandStack.size() < 2) && ((postfixchar == '-') || (postfixchar == '+'))) {
-//                        operand = "" + postfixchar;
+                if (postfixChar != ' ') {
+//                    if ((operandStack.size() < 2) && ((postfixChar == '-') || (postfixChar == '+'))) {
+//                        operand = "" + postfixChar;
 //                        continue;
 //                    }
 
-//                    if (operandStack.size() >= 2) {
-                        String secondOperand = operandStack.pop();
-                        String firstOperand = operandStack.pop();
-//                    }
+                    if (operandStack.size() >= 2) {
+                        secondOperand = operandStack.pop();
+                        firstOperand = operandStack.pop();
+                    } else {
+                        throw new IllegalArgumentException("Wrong order of operators near symbol " + postfixChar + " at position " + position + "\n" + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                    }
                     String result = "";
-                    switch (postfixchar) {
+                    switch (postfixChar) {
                         case '+':
                             IntegerAddition addition = new IntegerAddition(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = addition.getResult();
@@ -135,7 +199,7 @@ public class MathExpressionParser {
                             }
                             break;
                         case '-':
-                            IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            IntegerSubtraction substraction = new IntegerSubtraction(new BigInteger(firstOperand), new BigInteger(secondOperand));
                             result = substraction.getResult();
                             if (verbose) {
                                 step++;
@@ -167,7 +231,7 @@ public class MathExpressionParser {
                             break;
 
                         default:
-                            throw new IllegalArgumentException("Invalid symbol in postfix expression. Can't evaluate.");
+                            throw new IllegalArgumentException("Can't evaluate postfix expression due to invalid symbol " + postfixChar + " at position " + position + "\n" + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                     }
                     operandStack.push(result);
                 }

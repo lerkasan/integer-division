@@ -17,4 +17,11 @@ public class Formatter {
     public String getLine(int length) {
         return getRepeatingSymbols("-", length);
     }
+
+    public String deleteLeadingZeros(String number) {
+        while (number.startsWith("0") && number.length() > 1) {
+            number = number.substring(1);
+        }
+        return number;
+    }
 }

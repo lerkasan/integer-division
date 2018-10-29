@@ -7,15 +7,43 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        IntegerAddition addition = new IntegerAddition(new BigInteger("-14"), new BigInteger("16"));
+        IntegerSubtraction substraction = new IntegerSubtraction(new BigInteger("14"), new BigInteger("16"));
+        System.out.println(substraction);
+
+        substraction = new IntegerSubtraction(new BigInteger("8"), new BigInteger("9"));
+        System.out.println(substraction);
+
+        IntegerAddition addition = new IntegerAddition(new BigInteger("22"), new BigInteger("-14"));
         System.out.println(addition);
 
-        String expression = "98 + 7 * 2-36/4 + 3*(-4+16)";
+        addition = new IntegerAddition(new BigInteger("-14"), new BigInteger("16"));
+        System.out.println(addition);
+
+        addition = new IntegerAddition(new BigInteger("8"), new BigInteger("-9"));
+        System.out.println(addition);
+
+        String expression = "-5+3*((0-4)+16)";
         MathExpressionParser mathParser = new MathExpressionParser();
         System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
         boolean verbose = true;
         System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
         System.out.println();
+
+        expression = "98 + 7 * 2-36/4 + 3*(-4+16)";
+        System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
+        System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+        System.out.println();
+
+        expression = "98 + 7 * -2-36/4 + 3*(-4+16)";
+        System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
+        System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+        System.out.println();
+
+        expression = "-25-(98-4)/-2 + 7 * -2-36/4 + 3*(-4+16)";
+        System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
+        System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+        System.out.println();
+
         System.out.println(mathParser.convertInfixToPostfix("-14+16"));
         System.out.println(mathParser.evaluate("-14+16", verbose));
         System.out.println();
@@ -90,13 +118,13 @@ public class Main {
         multiplication = new IntegerMultiplication(new BigInteger("-2685"), new BigInteger("0"));
         System.out.println(multiplication);
 
-        IntegerSubstraction substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
+        substraction = new IntegerSubtraction(new BigInteger("-876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(substraction);
 
-        substraction = new IntegerSubstraction(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
+        substraction = new IntegerSubtraction(new BigInteger("-876131345924584627"), new BigInteger("75491249882053"));
         System.out.println(substraction);
 
-        substraction = new IntegerSubstraction(new BigInteger("14"), new BigInteger("16"));
+        substraction = new IntegerSubtraction(new BigInteger("14"), new BigInteger("16"));
         System.out.println(substraction);
 
 
@@ -106,10 +134,10 @@ public class Main {
             e.printStackTrace();
         }
 
-        substraction = new IntegerSubstraction(new BigInteger("876131345924584627"), new BigInteger("75491249882053"));
+        substraction = new IntegerSubtraction(new BigInteger("876131345924584627"), new BigInteger("75491249882053"));
         System.out.println(substraction);
 
-        substraction = new IntegerSubstraction(new BigInteger("876131345924584627"), new BigInteger("-75491249882053"));
+        substraction = new IntegerSubtraction(new BigInteger("876131345924584627"), new BigInteger("-75491249882053"));
         System.out.println(substraction);
 
         System.out.println("Addition");

@@ -2,9 +2,9 @@ package ua.com.foxminded.integerdivision;
 
 import java.math.BigInteger;
 
-public class IntegerSubstraction extends IntegerAddition {
+public class IntegerSubtraction extends IntegerAddition {
 
-    public IntegerSubstraction(BigInteger minuend, BigInteger subtrahend) {
+    public IntegerSubtraction(BigInteger minuend, BigInteger subtrahend) {
         super(minuend, BigInteger.valueOf(-1).multiply(subtrahend));
     }
 
