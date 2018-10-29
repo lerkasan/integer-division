@@ -5,9 +5,16 @@ import java.util.*;
 
 public class MathExpressionParser {
 
+    private static final String NULL_INFIX = "Null infix string can't be converted to postfix.";
+    private static final String INVALID_SYMBOL = "Can't evaluate expression due to invalid symbol ";
+    private static final String LETTERS_NOT_ALLOWED = "Letters are not allowed in arithmetic expressions. Invalid symbol ";
+    private static final String DECIMALS_NOT_ALLOWED = "Only integer numbers are allowed in the expression. Invalid symbol ";
+    private static final String WRONG_PARENTHESES_ORDER = "Wrong order of parentheses near position ";
+    private static final String WRONG_OPERATOR_ORDER = "Wrong order of operators near symbol ";
+
     private String replaceUnaryMinuses(String infix) {
         if (infix == null) {
-            throw new IllegalArgumentException("Null infix string can't be converted to postfix.");
+            throw new IllegalArgumentException(NULL_INFIX);
         }
         String infixWithoutSpaces = infix.replaceAll(" ", "");
         String result = "";
@@ -41,7 +48,7 @@ public class MathExpressionParser {
 
     public String convertInfixToPostfix(String infix) {
         if (infix == null) {
-            throw new IllegalArgumentException("Null infix string can't be converted to postfix.");
+            throw new IllegalArgumentException(NULL_INFIX);
         }
         String alteredInfix = replaceUnaryMinuses(infix);
         System.out.println(alteredInfix);
@@ -55,7 +62,8 @@ public class MathExpressionParser {
         for (char infixChar : infixChars) {
             position++;
             if (Character.isLetter(infixChar)) {
-                throw new IllegalArgumentException("Letters are not allowed in arithmetic expressions. Invalid symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                throw new IllegalArgumentException(LETTERS_NOT_ALLOWED + infixChar + " at position " + position + "\n"
+                        + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
             }
             if (Character.isDigit(infixChar)) {
                 postfix += infixChar;
@@ -71,7 +79,8 @@ public class MathExpressionParser {
 
                     case ')':
                         if (parenthesesCounter <= 0) {
-                            throw new IllegalArgumentException("Wrong order of parentheses at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                            throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER + position + "\n"
+                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                         }
                         isPreviousCharOperator = false;
                         parenthesesCounter--;
@@ -88,13 +97,15 @@ public class MathExpressionParser {
                     case '*':
                     case '/':
                         if ((isPreviousCharOperator) && (infixChar != '-')) {
-                            throw new IllegalArgumentException("Wrong order of operators near symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                            throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
+                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                         }
                         isPreviousCharOperator = true;
                         if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
 //                            if (infixChar != '-') {
                             if ((infixChar == '*') || (infixChar == '/')) {
-                                throw new IllegalArgumentException("Wrong order of operators near symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
+                                        + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                             }
 //                            postfix =  postfix.trim() + " 0 ";
                         }
@@ -106,15 +117,17 @@ public class MathExpressionParser {
 
                     case '.':
                     case ',':
-                        throw new IllegalArgumentException("Only integer numbers are allowed in the expression. Invalid symbol " + infixChar + " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        throw new IllegalArgumentException(DECIMALS_NOT_ALLOWED + infixChar + " at position " + position + "\n"
+                                + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
 
                     default:
-                        throw new IllegalArgumentException("Expression contains some invalid characters. Invalid symbol " + infixChar+ " at position " + position + "\n" + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        throw new IllegalArgumentException(INVALID_SYMBOL + infixChar+ " at position " + position + "\n"
+                                + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                 }
             }
         }
         if (parenthesesCounter != 0) {
-            throw new IllegalArgumentException("Invalid order of parentheses");
+            throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER);
         }
         while (!operatorStack.isEmpty()) {
             postfix = postfix.trim() + " " + operatorStack.pop() + " ";
@@ -184,7 +197,8 @@ public class MathExpressionParser {
                         secondOperand = operandStack.pop();
                         firstOperand = operandStack.pop();
                     } else {
-                        throw new IllegalArgumentException("Wrong order of operators near symbol " + postfixChar + " at position " + position + "\n" + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + postfixChar + " at position " + position + "\n"
+                                + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                     }
                     String result = "";
                     switch (postfixChar) {
@@ -194,8 +208,7 @@ public class MathExpressionParser {
                             if (verbose) {
                                 step++;
                                 System.out.printf("Step %d:\n", step);
-                                System.out.println(addition);
-                                System.out.println();
+                                System.out.println(addition + "\n");
                             }
                             break;
                         case '-':
@@ -204,8 +217,7 @@ public class MathExpressionParser {
                             if (verbose) {
                                 step++;
                                 System.out.printf("Step %d:\n", step);
-                                System.out.println(substraction);
-                                System.out.println();
+                                System.out.println(substraction + "\n");
                             }
                             break;
                         case '*':
@@ -214,8 +226,7 @@ public class MathExpressionParser {
                             if (verbose) {
                                 step++;
                                 System.out.printf("Step %d:\n", step);
-                                System.out.println(multiplication);
-                                System.out.println();
+                                System.out.println(multiplication + "\n");
                             }
                             break;
 
@@ -225,13 +236,13 @@ public class MathExpressionParser {
                             if (verbose) {
                                 step++;
                                 System.out.printf("Step %d:\n", step);
-                                System.out.println(division);
-                                System.out.println();
+                                System.out.println(division + "\n");
                             }
                             break;
 
                         default:
-                            throw new IllegalArgumentException("Can't evaluate postfix expression due to invalid symbol " + postfixChar + " at position " + position + "\n" + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                            throw new IllegalArgumentException(INVALID_SYMBOL + postfixChar + " at position " + position + "\n"
+                                    + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                     }
                     operandStack.push(result);
                 }
