@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        IntegerDivision division = new IntegerDivision(BigInteger.valueOf(48), BigInteger.valueOf(2));
+        IntegerDivision division = new IntegerDivision(BigInteger.valueOf(48), BigInteger.valueOf(4));
         System.out.println(division.toString());
 
         IntegerSubtraction substraction = new IntegerSubtraction(new BigInteger("14"), new BigInteger("16"));

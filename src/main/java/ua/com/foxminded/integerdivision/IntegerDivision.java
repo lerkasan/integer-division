@@ -118,6 +118,11 @@ public class IntegerDivision extends Operation {
                 int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
                 stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
             }
+            if ((BigInteger.ZERO.equals(previousRemainder)) && (currentDividendDigitRearIndex < dividendLength - 1)) {
+                currentDividendDigitRearIndex++;
+                int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
+            }
             stepResult.quotient = stepResult.minuend.divide(absoluteDivisor);
             stepResult.subtrahend = stepResult.quotient.multiply(absoluteDivisor);
             stepResult.difference = stepResult.minuend.subtract(stepResult.subtrahend);
