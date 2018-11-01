@@ -63,8 +63,8 @@ public class IntegerDivisionTest {
         String actual = underTest.toString();
         String expected =
                 "_-1234 | 123\n" +
-                "  1230 |-----\n" +
-                "  ---- | -10\n" +
+                "  123  |-----\n" +
+                "  ---  | -10\n" +
                 "    -4";
         assertEquals(expected, actual);
     }
@@ -77,8 +77,8 @@ public class IntegerDivisionTest {
         String actual = underTest.toString();
         String expected =
                 "_123457 | 123\n" +
-                " 1230   |------\n" +
-                " ----   | 1003\n" +
+                " 123    |------\n" +
+                " ---    | 1003\n" +
                 "   _457\n" +
                 "    369\n" +
                 "    ---\n" +
@@ -242,6 +242,23 @@ public class IntegerDivisionTest {
                 "     2436\n" +
                 "     ----\n" +
                 "     -267";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testPrintLongDivisionWithoutEndlessLoop() {
+        BigInteger dividend = BigInteger.valueOf(42);
+        BigInteger divisor = BigInteger.valueOf(2);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toString();
+        String expected =
+                "_42 | 2\n" +
+                        " 4  |----\n" +
+                        " -  | 21\n" +
+                        " _2\n" +
+                        "  2\n" +
+                        "  -\n" +
+                        "  0";
         assertEquals(expected, actual);
     }
 

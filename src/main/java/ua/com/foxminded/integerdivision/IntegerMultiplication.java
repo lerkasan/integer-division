@@ -46,7 +46,7 @@ public class IntegerMultiplication extends Operation {
         return calculate().product;
     }
 
-    public IntegerMultiplication.MultiplicationResult calculate() {
+    protected IntegerMultiplication.MultiplicationResult calculate() {
         if ((multiplicand == null) || (multiplier == null)) {
             throw new IllegalArgumentException(this.NULL_ARGUMENT_MESSAGE);
         }

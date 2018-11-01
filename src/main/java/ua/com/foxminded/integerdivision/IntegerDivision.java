@@ -76,7 +76,7 @@ public class IntegerDivision extends Operation {
     }
 
     @Override
-    public DivisionResult calculate() {
+    protected DivisionResult calculate() {
         if ((dividend == null) || (divisor == null)) {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
@@ -106,22 +106,23 @@ public class IntegerDivision extends Operation {
         DivisionResult result = new DivisionResult();
         do {
             IntermediateDivisionResult stepResult = new IntermediateDivisionResult();
-            if ((BigInteger.ZERO.equals(previousRemainder)) && (currentDividendDigitRearIndex == divisorLength - 1)) { // first step
+            if (currentDividendDigitRearIndex == divisorLength - 1) { // first step
                 stepResult.minuend = findFirstDigits(absoluteDividend, currentDividendDigitRearIndex);
+
+                if (absoluteDivisor.compareTo(stepResult.minuend) > 0) {
+                    currentDividendDigitRearIndex++;
+                    int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                    stepResult.minuend = BigInteger.TEN.multiply(stepResult.minuend).add(BigInteger.valueOf(nextDigitInDividend));
+                }
                 stepResult.difference = stepResult.minuend;
             } else {
                 stepResult.difference = previousRemainder;
-                stepResult.minuend = stepResult.difference;
-            }
-            if ((absoluteDivisor.compareTo(stepResult.minuend) >= 0) && (currentDividendDigitRearIndex < dividendLength - 1)) {
-                currentDividendDigitRearIndex++;
                 int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
-                stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
-            }
-            if ((BigInteger.ZERO.equals(previousRemainder)) && (currentDividendDigitRearIndex < dividendLength - 1)) {
-                currentDividendDigitRearIndex++;
-                int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
-                stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
+                if (BigInteger.ZERO.equals(stepResult.difference)) {
+                    stepResult.minuend = BigInteger.valueOf(nextDigitInDividend);
+                } else {
+                    stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
+                }
             }
             stepResult.quotient = stepResult.minuend.divide(absoluteDivisor);
             stepResult.subtrahend = stepResult.quotient.multiply(absoluteDivisor);
@@ -129,7 +130,8 @@ public class IntegerDivision extends Operation {
             stepResult.rearIndex = currentDividendDigitRearIndex;
             previousRemainder = stepResult.difference;
             stepResults.add(stepResult);
-        } while (currentDividendDigitRearIndex < dividendLength - 1);
+            currentDividendDigitRearIndex++;
+        } while (currentDividendDigitRearIndex <= dividendLength - 1);
         boolean isResultNegativeInteger = (BigInteger.ZERO.compareTo(dividend) > 0) ^ (BigInteger.ZERO.compareTo(divisor) > 0);
         if (isResultNegativeInteger) {
             stepResults.get(0).quotient = BigInteger.valueOf(-1).multiply(stepResults.get(0).quotient);

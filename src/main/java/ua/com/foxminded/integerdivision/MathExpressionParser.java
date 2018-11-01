@@ -101,15 +101,16 @@ public class MathExpressionParser {
                             throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
                                     + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                         }
-                        isPreviousCharOperator = true;
+//                        isPreviousCharOperator = true;
                         if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
 //                            if (infixChar != '-') {
-                            if ((infixChar == '*') || (infixChar == '/')) {
+                            if ((isPreviousCharOperator) && ((infixChar == '*') || (infixChar == '/'))) {
                                 throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
                                         + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                             }
 //                            postfix =  postfix.trim() + " 0 ";
                         }
+                        isPreviousCharOperator = true;
                         postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
                         break;
 

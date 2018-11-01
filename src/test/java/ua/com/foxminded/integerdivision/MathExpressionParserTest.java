@@ -53,4 +53,14 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expected = "12";
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldEvaluatePostfixWithNestedParentheses() {
+        String expression = "0 5 - 3 0 4 - 16 + * +"; //infix = "-5+3*((0-4)+16)";
+        underTest = new MathExpressionParser();
+        boolean verbose = true;
+        String actual = underTest.evaluatePostfixExpression(expression, verbose);
+        String expected = "31";
+        assertEquals(expected, actual);
+    }
 }

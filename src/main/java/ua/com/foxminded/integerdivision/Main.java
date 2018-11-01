@@ -7,6 +7,23 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        String expression = "";
+        Scanner in = new Scanner(System.in);
+        System.out.println("\nEvaluating math expressions. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");
+        do {
+            System.out.print("\nInput a math expression: ");
+            expression = in.nextLine();
+            if (!"exit".equals(expression)) {
+                try {
+                    MathExpressionParser mathParser = new MathExpressionParser();
+                    boolean verbose = true;
+                    System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+                    System.out.println();
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        } while (!"exit".equals(expression));
 
         IntegerDivision division = new IntegerDivision(BigInteger.valueOf(48), BigInteger.valueOf(4));
         System.out.println(division.toString());
@@ -26,10 +43,15 @@ public class Main {
         addition = new IntegerAddition(new BigInteger("8"), new BigInteger("-9"));
         System.out.println(addition);
 
-        String expression = "-5+3*((0-4)+16)";
+        expression = "-5+3*((0-4)+16)";
         MathExpressionParser mathParser = new MathExpressionParser();
         System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
         boolean verbose = true;
+        System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
+        System.out.println();
+
+        expression = "2142156 / 435";
+        System.out.println("Postfix is: " + mathParser.convertInfixToPostfix(expression));
         System.out.println(expression + " = " + mathParser.evaluate(expression, verbose));
         System.out.println();
 
@@ -191,26 +213,26 @@ public class Main {
         addition = new IntegerAddition(new BigInteger("-57425"), new BigInteger("89"));
         System.out.println(addition);
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("\nDividing integers. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");
-        String dividend = "";
-        String divisor = "";
-        do {
-            System.out.print("\nInput a dividend: ");
-            dividend = in.next();
-            if (!"exit".equals(dividend)) {
-                System.out.print("\nInput a divisor: ");
-                divisor = in.next();
-                if (!"exit".equals(divisor)) {
-                    try {
-                        division = new IntegerDivision(new BigInteger(dividend), new BigInteger(divisor));
-                        System.out.println(division.toString());
-                    } catch (NumberFormatException e) {
-                        System.out.println("You entered not a numeric dividend or divisor.");
-                    }
-                }
-            }
-        } while (!"exit".equals(dividend) && !"exit".equals(divisor));
+//        Scanner in = new Scanner(System.in);
+//        System.out.println("\nDividing integers. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");
+//        String dividend = "";
+//        String divisor = "";
+//        do {
+//            System.out.print("\nInput a dividend: ");
+//            dividend = in.next();
+//            if (!"exit".equals(dividend)) {
+//                System.out.print("\nInput a divisor: ");
+//                divisor = in.next();
+//                if (!"exit".equals(divisor)) {
+//                    try {
+//                        division = new IntegerDivision(new BigInteger(dividend), new BigInteger(divisor));
+//                        System.out.println(division.toString());
+//                    } catch (NumberFormatException e) {
+//                        System.out.println("You entered not a numeric dividend or divisor.");
+//                    }
+//                }
+//            }
+//        } while (!"exit".equals(dividend) && !"exit".equals(divisor));
 
         division = new IntegerDivision(BigInteger.ZERO, BigInteger.valueOf(14));
         System.out.println(division.toString());

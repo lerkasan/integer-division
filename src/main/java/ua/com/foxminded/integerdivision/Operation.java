@@ -33,7 +33,7 @@ abstract class Operation {
         protected int rearIndex;
     }
 
-    abstract Result calculate();
+    abstract protected Result calculate();
 
     public abstract String toString();
 
