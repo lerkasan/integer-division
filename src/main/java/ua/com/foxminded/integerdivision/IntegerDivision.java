@@ -18,7 +18,7 @@ public class IntegerDivision extends Operation {
         this.divisor = divisor;
     }
 
-    private class DivisionResult extends Result {
+    protected class DivisionResult extends Result {
         @JsonProperty
         private BigInteger quotient;
 
@@ -34,6 +34,14 @@ public class IntegerDivision extends Operation {
             this.quotient = quotient;
             this.remainder = remainder;
             this.steps = steps;
+        }
+
+        public BigInteger getQuotient() {
+            return quotient;
+        }
+
+        public BigInteger getRemainder() {
+            return remainder;
         }
     }
 
@@ -139,6 +147,8 @@ public class IntegerDivision extends Operation {
         if (BigInteger.ZERO.compareTo(dividend) > 0) {
            result.remainder = BigInteger.valueOf(-1).multiply(stepResults.get(stepResults.size() - 1).difference);
            stepResults.get(stepResults.size() - 1).difference = result.remainder;
+        } else {
+            result.remainder = stepResults.get(stepResults.size() - 1).difference;
         }
         BigInteger wholeQuotient = calculateWholeQuotient(stepResults);
         return new DivisionResult(wholeQuotient, result.remainder, stepResults);

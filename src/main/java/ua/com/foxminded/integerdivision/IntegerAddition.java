@@ -12,16 +12,6 @@ public class IntegerAddition extends Operation {
 
     public IntegerAddition(BigInteger firstAddend, BigInteger secondAddend) {
         super(2, 1, Arrays.asList(firstAddend, secondAddend));
-//        if ((firstAddend == null) || (secondAddend == null)) {
-//            throw new IllegalArgumentException(this.NULL_ARGUMENT_MESSAGE);
-//        }
-//        BigInteger absoluteFirstAddend = firstAddend.abs();
-//        BigInteger absoluteSecondAddend = secondAddend.abs();
-//        if (absoluteFirstAddend.compareTo(absoluteSecondAddend) < 0) {
-//            BigInteger temp = firstAddend;
-//            firstAddend = secondAddend;
-//            secondAddend = temp;
-//        }
         this.firstAddend = firstAddend;
         this.secondAddend = secondAddend;
     }
