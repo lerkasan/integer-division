@@ -7,6 +7,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
+//    parse    "7(32/4)"
+//             "(48/4)8"
+
         String expression = "";
         Scanner in = new Scanner(System.in);
         System.out.println("\nEvaluating math expressions. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");

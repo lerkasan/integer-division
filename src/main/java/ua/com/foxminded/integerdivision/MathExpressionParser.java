@@ -58,7 +58,9 @@ public class MathExpressionParser {
         String postfix = "";
         int parenthesesCounter = 0;
         int position = 0;
-        boolean isPreviousCharOperator = false;
+        boolean isPreviousOperator = true;
+        boolean isPreviousOpeningParentheses = false;
+        boolean isPreviousClosingParentheses = false;
         Formatter formatter = new Formatter();
         for (char infixChar : infixChars) {
             position++;
@@ -67,14 +69,26 @@ public class MathExpressionParser {
                         + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
             }
             if (Character.isDigit(infixChar)) {
+                if (isPreviousClosingParentheses) {
+                    throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
+                            + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                }
                 postfix += infixChar;
-                isPreviousCharOperator = false;
+                isPreviousOperator = false;
+                isPreviousOpeningParentheses = false;
+                isPreviousClosingParentheses = false;
             } else {
                 char operatorFromStack = ' ';
                 switch (infixChar) {
                     case '(':
+                        if ((!isPreviousOperator) && (!isPreviousOpeningParentheses)){
+                            throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
+                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        }
                         operatorStack.push(infixChar);
-                        isPreviousCharOperator = false;
+                        isPreviousOperator = false;
+                        isPreviousOpeningParentheses = true;
+                        isPreviousClosingParentheses = false;
                         parenthesesCounter++;
                         break;
 
@@ -83,7 +97,9 @@ public class MathExpressionParser {
                             throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER + position + "\n"
                                     + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                         }
-                        isPreviousCharOperator = false;
+                        isPreviousOperator = false;
+                        isPreviousOpeningParentheses = false;
+                        isPreviousClosingParentheses = true;
                         parenthesesCounter--;
                         while (!operatorStack.isEmpty() && (operatorFromStack != '(')) {
                             operatorFromStack = operatorStack.pop();
@@ -97,20 +113,22 @@ public class MathExpressionParser {
                     case '-':
                     case '*':
                     case '/':
-                        if ((isPreviousCharOperator) && (infixChar != '-')) {
+                        if ((isPreviousOperator) && (infixChar != '-')) {
                             throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
                                     + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                         }
 //                        isPreviousCharOperator = true;
                         if ((postfix == "") || ((!operatorStack.isEmpty()) && (operatorStack.peek() == '('))) {
 //                            if (infixChar != '-') {
-                            if ((isPreviousCharOperator) && ((infixChar == '*') || (infixChar == '/'))) {
+                            if ((isPreviousOperator) && (infixChar != '-')) {
                                 throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + " at position " + position + "\n"
                                         + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                             }
 //                            postfix =  postfix.trim() + " 0 ";
                         }
-                        isPreviousCharOperator = true;
+                        isPreviousOperator = true;
+                        isPreviousOpeningParentheses = false;
+                        isPreviousClosingParentheses = false;
                         postfix = postfix.trim() + " " + prioritizeStackOperators(operatorStack, infixChar);
                         break;
 
@@ -129,7 +147,8 @@ public class MathExpressionParser {
             }
         }
         if (parenthesesCounter != 0) {
-            throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER);
+            throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER + position + "\n"
+                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
         }
         while (!operatorStack.isEmpty()) {
             postfix = postfix.trim() + " " + operatorStack.pop() + " ";

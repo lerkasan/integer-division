@@ -14,7 +14,7 @@ public class IntegerDivisionTest {
     private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
-    void testPrintLongDivisionWithZeroDividend() {
+    void shouldPrintLongDivisionWithZeroDividend() {
         BigInteger dividend = BigInteger.valueOf(0);
         BigInteger divisor = BigInteger.valueOf(14);
         underTest = new IntegerDivision(dividend, divisor);
@@ -28,7 +28,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithAbsDividendEqualsAbsDivisor() {
+    void shouldPrintLongDivisionWithAbsDividendEqualsAbsDivisor() {
         BigInteger dividend = BigInteger.valueOf(-78);
         BigInteger divisor = BigInteger.valueOf(78);
         underTest = new IntegerDivision(dividend, divisor);
@@ -42,7 +42,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithDividendEqualDivisor() {
+    void shouldPrintLongDivisionWithDividendEqualDivisor() {
         BigInteger dividend = BigInteger.valueOf(14);
         BigInteger divisor = BigInteger.valueOf(14);
         underTest = new IntegerDivision(dividend, divisor);
@@ -56,7 +56,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithDivisorIsSubstringOfNegativeDividend() {
+    void shouldPrintLongDivisionWithDivisorIsSubstringOfNegativeDividend() {
         BigInteger dividend = BigInteger.valueOf(-1234);
         BigInteger divisor = BigInteger.valueOf(123);
         underTest = new IntegerDivision(dividend, divisor);
@@ -70,7 +70,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithDivisorIsSubstringOfPositiveDividend() {
+    void shouldPrintLongDivisionWithDivisorIsSubstringOfPositiveDividend() {
         BigInteger dividend = BigInteger.valueOf(123457);
         BigInteger divisor = BigInteger.valueOf(123);
         underTest = new IntegerDivision(dividend, divisor);
@@ -87,7 +87,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithAbsDividendLessThanAbsDivisor() {
+    void shouldPrintLongDivisionWithAbsDividendLessThanAbsDivisor() {
         BigInteger dividend = BigInteger.valueOf(235);
         BigInteger divisor = BigInteger.valueOf(972);
         underTest = new IntegerDivision(dividend, divisor);
@@ -101,7 +101,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithDividendMuchMoreThanDivisor() {
+    void shouldPrintLongDivisionWithDividendMuchMoreThanDivisor() {
         BigInteger dividend = BigInteger.valueOf(2071462334);
         BigInteger divisor = BigInteger.valueOf(9);
         underTest = new IntegerDivision(dividend, divisor);
@@ -136,7 +136,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithBigIntegers() {
+    void shouldPrintLongDivisionWithBigIntegers() {
         BigInteger dividend = new BigInteger("063782071731462398534");
         BigInteger divisor =  new BigInteger("7521654673");
         underTest = new IntegerDivision(dividend, divisor);
@@ -177,7 +177,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithNegativeDividendAndPositiveDivisor() {
+    void shouldPrintLongDivisionWithNegativeDividendAndPositiveDivisor() {
         BigInteger dividend = BigInteger.valueOf(-4257583);
         BigInteger divisor = BigInteger.valueOf(812);
         underTest = new IntegerDivision(dividend, divisor);
@@ -200,7 +200,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithPositiveDividendAndNegativeDivisor() {
+    void shouldPrintLongDivisionWithPositiveDividendAndNegativeDivisor() {
         BigInteger dividend = BigInteger.valueOf(4257583);
         BigInteger divisor = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(dividend, divisor);
@@ -223,7 +223,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithNegativeDividendAndNegativeDivisor() {
+    void shouldPrintLongDivisionWithNegativeDividendAndNegativeDivisor() {
         BigInteger dividend = BigInteger.valueOf(-4257583);
         BigInteger divisor = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(dividend, divisor);
@@ -246,7 +246,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithoutEndlessLoop() {
+    void shouldPrintLongDivisionWithoutEndlessLoop() {
         BigInteger dividend = BigInteger.valueOf(42);
         BigInteger divisor = BigInteger.valueOf(2);
         underTest = new IntegerDivision(dividend, divisor);
@@ -263,7 +263,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithNullDividend() {
+    void shouldThrowExceptionWithNullDividend() {
         BigInteger divisor = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(null,  divisor);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
@@ -271,7 +271,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithNullDivisor() {
+    void shouldThrowExceptionWithNullDivisor() {
         BigInteger dividend = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(dividend, null);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
@@ -279,7 +279,7 @@ public class IntegerDivisionTest {
     }
 
     @Test
-    void testPrintLongDivisionWithZeroDivisor() {
+    void shouldThrowExceptionWithZeroDivisor() {
         BigInteger dividend = BigInteger.valueOf(-813632);
         BigInteger divisor = BigInteger.ZERO;
         underTest = new IntegerDivision(dividend,  divisor);
