@@ -94,6 +94,7 @@ public class IntegerMultiplication extends Operation {
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
             IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).addend + zerosAtAddendTail));
+            addition.calculate();
             sum = addition.getResult();
         }
         return sum;

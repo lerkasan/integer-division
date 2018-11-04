@@ -8,6 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
 
+        BigInteger minuend = new BigInteger("10000");
+        BigInteger subtrahend = new BigInteger("1");
+        IntegerSubtraction underTest = new IntegerSubtraction(minuend, subtrahend);
+        System.out.println(underTest);
+        System.out.println("RESULT");
+        System.out.println(underTest.getResult());
+
         String expression = "";
         Scanner in = new Scanner(System.in);
         System.out.println("\nEvaluating math expressions. Print 'exit' or press Ctrl + C or Ctrl + D to quit.");

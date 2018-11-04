@@ -15,6 +15,12 @@ abstract class Operation {
 
     private int arity;
     private int priority;
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
     protected List<BigInteger> operands;
 
     protected Operation(int arity, int priority, List<BigInteger> operands) {

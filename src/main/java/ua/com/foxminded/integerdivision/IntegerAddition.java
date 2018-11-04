@@ -9,6 +9,7 @@ import java.util.List;
 public class IntegerAddition extends Operation {
     private BigInteger firstAddend;
     private BigInteger secondAddend;
+    private AdditionResult result;
 
     public IntegerAddition(BigInteger firstAddend, BigInteger secondAddend) {
         super(2, 1, Arrays.asList(firstAddend, secondAddend));
@@ -45,10 +46,15 @@ public class IntegerAddition extends Operation {
     }
 
     public String getResult() {
-        return calculate().sum;
+        return result.sum;
     }
 
     public AdditionResult calculate() {
+        result = calculateWithoutAssignment();
+        return result;
+    }
+
+    private AdditionResult calculateWithoutAssignment() {
         if ((firstAddend == null) || (secondAddend == null)) {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }

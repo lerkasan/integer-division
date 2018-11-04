@@ -225,6 +225,7 @@ public class MathExpressionParser {
                     switch (postfixChar) {
                         case '+':
                             IntegerAddition addition = new IntegerAddition(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            addition.calculate(); /////
                             result = addition.getResult();
                             if (verbose) {
                                 step++;
@@ -234,6 +235,7 @@ public class MathExpressionParser {
                             break;
                         case '-':
                             IntegerSubtraction substraction = new IntegerSubtraction(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            substraction.calculate(); /////
                             result = substraction.getResult();
                             if (verbose) {
                                 step++;
@@ -243,6 +245,7 @@ public class MathExpressionParser {
                             break;
                         case '*':
                             IntegerMultiplication multiplication = new IntegerMultiplication(new BigInteger(firstOperand), new BigInteger(secondOperand));
+//                            multiplication.calculate(); /////
                             result = multiplication.getProduct();
                             if (verbose) {
                                 step++;
@@ -253,6 +256,7 @@ public class MathExpressionParser {
 
                         case '/':
                             IntegerDivision division = new IntegerDivision(new BigInteger(firstOperand), new BigInteger(secondOperand));
+//                            division.calculate(); /////
                             result = division.getQuotient();
                             if (verbose) {
                                 step++;
