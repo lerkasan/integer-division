@@ -24,9 +24,6 @@ public class IntegerMultiplication extends Operation {
         @JsonProperty
         private List<IntermediateMultiplicationResult> steps;
 
-        private MultiplicationResult() {
-        }
-
         private MultiplicationResult(String product) {
             this.product = product;
         }
@@ -48,7 +45,7 @@ public class IntegerMultiplication extends Operation {
 
     protected IntegerMultiplication.MultiplicationResult calculate() {
         if ((multiplicand == null) || (multiplier == null)) {
-            throw new IllegalArgumentException(this.NULL_ARGUMENT_MESSAGE);
+            throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
         if (BigInteger.ZERO.equals(multiplicand)) {
             return new MultiplicationResult("0");
@@ -128,7 +125,9 @@ public class IntegerMultiplication extends Operation {
         if (!"0".equals(result.product) && (result.steps.size() > 1)) {
             for (IntermediateMultiplicationResult step : result.steps) {
                 int addendOffset = maxLength - step.addend.length();
-                output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+                if (!BigInteger.ZERO.equals(new BigInteger(step.addend))) {
+                    output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+                }
             }
             output += "+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n";
         }

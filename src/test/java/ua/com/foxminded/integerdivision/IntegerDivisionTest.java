@@ -15,7 +15,7 @@ public class IntegerDivisionTest {
 
     @Test
     void shouldPrintLongDivisionWithZeroDividend() {
-        BigInteger dividend = BigInteger.valueOf(0);
+        BigInteger dividend = BigInteger.ZERO;
         BigInteger divisor = BigInteger.valueOf(14);
         underTest = new IntegerDivision(dividend, divisor);
         String actual = underTest.toString();
@@ -307,8 +307,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = new BigInteger("-521546363");
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(1707684);
-        BigInteger expectedRemainder = BigInteger.valueOf(-328830335);
+//        BigInteger expectedQuotient = BigInteger.valueOf(1707684);
+//        BigInteger expectedRemainder = BigInteger.valueOf(-328830335);
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -321,8 +323,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = BigInteger.valueOf(-902);
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(-1000395);
-        BigInteger expectedRemainder = BigInteger.valueOf(805);
+//        BigInteger expectedQuotient = BigInteger.valueOf(-1000395);
+//        BigInteger expectedRemainder = BigInteger.valueOf(805);
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -335,8 +339,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = new BigInteger("876001");
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(-1656);
-        BigInteger expectedRemainder = BigInteger.valueOf(-137344);
+//        BigInteger expectedQuotient = BigInteger.valueOf(-1656);
+//        BigInteger expectedRemainder = BigInteger.valueOf(-137344);
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -349,8 +355,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = BigInteger.valueOf(-785);
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(-751336);
-        BigInteger expectedRemainder = BigInteger.ZERO;
+//        BigInteger expectedQuotient = BigInteger.valueOf(-751336);
+//        BigInteger expectedRemainder = BigInteger.ZERO;
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -363,8 +371,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = new BigInteger("1450795");
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(-1000);
-        BigInteger expectedRemainder = BigInteger.ZERO;
+//        BigInteger expectedQuotient = BigInteger.valueOf(-1000);
+//        BigInteger expectedRemainder = BigInteger.ZERO;
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -377,8 +387,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = BigInteger.valueOf(11497578);
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(571365);
-        BigInteger expectedRemainder = BigInteger.ZERO;
+//        BigInteger expectedQuotient = BigInteger.valueOf(571365);
+//        BigInteger expectedRemainder = BigInteger.ZERO;
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
@@ -391,8 +403,10 @@ public class IntegerDivisionTest {
         BigInteger divisor = new BigInteger("-456");
         underTest = new IntegerDivision(dividend, divisor);
         IntegerDivision.DivisionResult actual = underTest.calculate();
-        BigInteger expectedQuotient = BigInteger.valueOf(781);
-        BigInteger expectedRemainder = BigInteger.ZERO;
+//        BigInteger expectedQuotient = BigInteger.valueOf(781);
+//        BigInteger expectedRemainder = BigInteger.ZERO;
+        BigInteger expectedQuotient = dividend.divide(divisor);
+        BigInteger expectedRemainder = dividend.subtract(divisor.multiply(expectedQuotient));
         BigInteger actualDividend = divisor.multiply(actual.getQuotient()).add(actual.getRemainder());
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
