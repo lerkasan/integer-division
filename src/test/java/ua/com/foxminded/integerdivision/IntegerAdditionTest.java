@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class IntegerAdditionTest {
 
     private IntegerAddition underTest;
-    private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
     void shouldPrintLongAdditionWithZeroFirstAddend() {
@@ -229,6 +228,24 @@ public class IntegerAdditionTest {
     }
 
     @Test
+    void shouldPrintAndReturnZero() {
+        BigInteger firstAddend = new BigInteger("1234567");
+        BigInteger secondAddend = new BigInteger("-1234567");
+        underTest = new IntegerAddition(firstAddend, secondAddend);
+        String actual = underTest.toString();
+        String expected =
+                "   1234567\n" +
+                "  -1234567\n" +
+                "+ --------\n" +
+                "         0";
+        assertEquals(expected, actual);
+
+        expected = firstAddend.add(secondAddend).toString();
+        actual = underTest.getResult();
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void shouldPrintLongAdditionTenThousandWithMinus9999() {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("-9999");
@@ -251,7 +268,7 @@ public class IntegerAdditionTest {
         BigInteger secondAddend = BigInteger.valueOf(-812);
         underTest = new IntegerAddition(null,  secondAddend);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -259,7 +276,17 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = BigInteger.valueOf(-812);
         underTest = new IntegerAddition(firstAddend, null);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnJson() {
+        BigInteger firstAddend = new BigInteger("10000");
+        BigInteger secondAddend = new BigInteger("-999");
+        underTest = new IntegerAddition(firstAddend, secondAddend);
+        String actual = underTest.toJson();
+        String expected = "{\"sum\":\"9001\",\"steps\":[{\"digit\":1,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":9,\"memorized\":-1},{\"digit\":0,\"memorized\":0}]}";
+        assertEquals(expected, actual);
     }
 
 }

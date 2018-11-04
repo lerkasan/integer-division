@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class IntegerDivisionTest {
 
     private static IntegerDivision underTest;
-    private static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
-    private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
     void shouldPrintLongDivisionWithZeroDividend() {
@@ -267,7 +265,7 @@ public class IntegerDivisionTest {
         BigInteger divisor = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(null,  divisor);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -275,7 +273,7 @@ public class IntegerDivisionTest {
         BigInteger dividend = BigInteger.valueOf(-812);
         underTest = new IntegerDivision(dividend, null);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -284,7 +282,7 @@ public class IntegerDivisionTest {
         BigInteger divisor = BigInteger.ZERO;
         underTest = new IntegerDivision(dividend,  divisor);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(DIVISION_BY_ZERO_MESSAGE, exception.getMessage());
+        assertEquals(IntegerDivision.DIVISION_BY_ZERO_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -411,5 +409,15 @@ public class IntegerDivisionTest {
         assertEquals(expectedQuotient, actual.getQuotient());
         assertEquals(expectedRemainder, actual.getRemainder());
         assertEquals(dividend, actualDividend);
+    }
+
+    @Test
+    void shouldReturnJson() {
+        BigInteger dividend = BigInteger.valueOf(142);
+        BigInteger divisor = BigInteger.valueOf(23);
+        underTest = new IntegerDivision(dividend, divisor);
+        String actual = underTest.toJson();
+        String expected = "{\"quotient\":6,\"remainder\":4,\"steps\":[{\"minuend\":142,\"subtrahend\":138,\"difference\":4,\"quotient\":6}]}";
+        assertEquals(expected, actual);
     }
 }

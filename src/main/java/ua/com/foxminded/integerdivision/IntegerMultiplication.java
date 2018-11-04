@@ -11,6 +11,8 @@ public class IntegerMultiplication extends Operation {
     private BigInteger multiplicand;
     private BigInteger multiplier;
 
+    Formatter formatter = new Formatter();
+
     public IntegerMultiplication(BigInteger multiplicand, BigInteger multiplier) {
         super(2, 1, Arrays.asList(multiplicand, multiplier));
         this.multiplicand = multiplicand;
@@ -60,12 +62,12 @@ public class IntegerMultiplication extends Operation {
         int multiplierLength = absoluteMultiplier.toString().length();
         List<IntermediateMultiplicationResult> steps = new ArrayList<>();
         for (int multiplierIndex = multiplierLength - 1; multiplierIndex >= 0; multiplierIndex--) {
-            int multiplierDigit = findDigitAtIndex(absoluteMultiplier, multiplierIndex);
+            int multiplierDigit = formatter.findDigitAtIndex(absoluteMultiplier, multiplierIndex);
             int memorized = 0;
             List<Integer> digits = new ArrayList<>();
             IntermediateMultiplicationResult step = new IntermediateMultiplicationResult();
             for (int multiplicandIndex = multiplicandLength - 1; multiplicandIndex >= 0; multiplicandIndex--) {
-                int multiplicandDigit = findDigitAtIndex(absoluteMultiplicand, multiplicandIndex);
+                int multiplicandDigit = formatter.findDigitAtIndex(absoluteMultiplicand, multiplicandIndex);
                 int digit = (multiplicandDigit * multiplierDigit + memorized) % 10;
                 memorized = (multiplicandDigit * multiplierDigit + memorized) / 10;
                 digits.add(digit);
@@ -89,7 +91,6 @@ public class IntegerMultiplication extends Operation {
     }
 
     private String addAddends(List<IntermediateMultiplicationResult> steps) {
-        Formatter formatter = new Formatter();
         String sum = "0";
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
@@ -109,7 +110,6 @@ public class IntegerMultiplication extends Operation {
     }
 
     public String toString() {
-        Formatter formatter = new Formatter();
         MultiplicationResult result = calculate();
         int multiplicandLength = multiplicand.toString().length();
         int multiplierLength = multiplier.toString().length();

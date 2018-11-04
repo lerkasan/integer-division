@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class IntegerSubtractionTest {
 
     private IntegerSubtraction underTest;
-    private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
     void shouldPrintLongSubtractionWithZerominuend() {
@@ -252,7 +251,7 @@ public class IntegerSubtractionTest {
         BigInteger subtrahend = BigInteger.valueOf(-812);
         underTest = new IntegerSubtraction(null,  subtrahend);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Disabled
@@ -261,7 +260,16 @@ public class IntegerSubtractionTest {
         BigInteger minuend = BigInteger.valueOf(-812);
         underTest = new IntegerSubtraction(minuend, null);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
+    @Test
+    void shouldReturnJson() {
+        BigInteger minuend = BigInteger.valueOf(142);
+        BigInteger subtrahend = BigInteger.valueOf(23);
+        underTest = new IntegerSubtraction(minuend, subtrahend);
+        String actual = underTest.toJson();
+        String expected = "{\"sum\":\"119\",\"steps\":[{\"digit\":9,\"memorized\":-1},{\"digit\":1,\"memorized\":0},{\"digit\":1,\"memorized\":0}]}";
+        assertEquals(expected, actual);
+    }
 }

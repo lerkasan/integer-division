@@ -193,6 +193,15 @@ public class MathExpressionParserTest extends MathExpressionParser {
     }
 
     @Test
+    void shouldThrowWrongOperatorOrderWithConsecutiveOperators() {
+        String expression = "5+*6";
+        String errorMessage = WRONG_OPERATOR_ORDER + "* at position 3\n" + expression + "\n  ^";
+        underTest = new MathExpressionParser();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.convertInfixToPostfix(expression));
+        assertEquals(errorMessage, exception.getMessage());
+    }
+
+    @Test
     void shouldThrowWrongOperatorOrderWhenInfixStartsWithMultiplication() {
         String expression = "(*67-42/2)";
         String errorMessage = WRONG_OPERATOR_ORDER + "* at position 4\n" + "67 * 42 2 / -" + "\n   ^";
@@ -250,6 +259,15 @@ public class MathExpressionParserTest extends MathExpressionParser {
     void shouldThrowExceptionWithInvalidSymbol() {
         String expression = "(5+6@)";
         String errorMessage = INVALID_SYMBOL + "@ at position 5\n" + expression + "\n    ^";
+        underTest = new MathExpressionParser();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.convertInfixToPostfix(expression));
+        assertEquals(errorMessage, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWithQuestionMark() {
+        String expression = "24?5+52";
+        String errorMessage = INVALID_SYMBOL + "? at position 3\n" + expression + "\n  ^";
         underTest = new MathExpressionParser();
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.convertInfixToPostfix(expression));
         assertEquals(errorMessage, exception.getMessage());

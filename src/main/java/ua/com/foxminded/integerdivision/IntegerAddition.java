@@ -11,6 +11,8 @@ public class IntegerAddition extends Operation {
     private BigInteger secondAddend;
     private AdditionResult result;
 
+    Formatter formatter = new Formatter();
+
     public IntegerAddition(BigInteger firstAddend, BigInteger secondAddend) {
         super(2, 1, Arrays.asList(firstAddend, secondAddend));
         this.firstAddend = firstAddend;
@@ -111,10 +113,10 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
+                int firstDigit = formatter.findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
+                    secondDigit = formatter.findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
 
 //                step.digit = (firstDigit + secondDigit + step.memorized) % 10;
@@ -149,10 +151,10 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
+                int firstDigit = formatter.findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
+                    secondDigit = formatter.findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
 
                 if ((firstDigit + previousMemorized < secondDigit) && (firstAddendLength >= secondAddendLength) && (absoluteFirstAddend.compareTo(absoluteSecondAddend) > 0)) {
@@ -168,7 +170,6 @@ public class IntegerAddition extends Operation {
             StringBuilder sum = new StringBuilder();
             IntermediateAdditionResult lastStep = steps.get(steps.size() - 1);
             String finalSum = combineSumDigits(steps, sum);
-            Formatter formatter = new Formatter();
             finalSum = formatter.deleteLeadingZeros(finalSum);
             if ((firstAddend.compareTo(secondAddend) < 0) && (!finalSum.startsWith("-"))) {
                 finalSum = "-" + finalSum;
@@ -204,7 +205,6 @@ public class IntegerAddition extends Operation {
     }
 
     protected String formatOutput(char operationSign) {
-        Formatter formatter = new Formatter();
         String result = "";
         String sum = calculate().sum;
         if (operationSign == '-') {

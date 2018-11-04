@@ -7,10 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class IntegerDivision extends Operation {
-    private static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
+    protected static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
 
     private BigInteger dividend;
     private BigInteger divisor;
+
+    private Formatter formatter = new Formatter();
 
     public IntegerDivision(BigInteger dividend, BigInteger divisor) {
         super(2,0, Arrays.asList(dividend, divisor));
@@ -77,7 +79,7 @@ public class IntegerDivision extends Operation {
     }
 
     private BigInteger findFirstDigits(BigInteger number, int index) {
-        checkIndexRange(number, index);
+        formatter.checkIndexRange(number, index);
         BigInteger absoluteNumber = number.abs();
         String firstDigits = String.valueOf(absoluteNumber).substring(0, index + 1);
         return new BigInteger(firstDigits);
@@ -119,13 +121,13 @@ public class IntegerDivision extends Operation {
 
                 if (absoluteDivisor.compareTo(stepResult.minuend) > 0) {
                     currentDividendDigitRearIndex++;
-                    int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                    int nextDigitInDividend = formatter.findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
                     stepResult.minuend = BigInteger.TEN.multiply(stepResult.minuend).add(BigInteger.valueOf(nextDigitInDividend));
                 }
                 stepResult.difference = stepResult.minuend;
             } else {
                 stepResult.difference = previousRemainder;
-                int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                int nextDigitInDividend = formatter.findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
                 if (BigInteger.ZERO.equals(stepResult.difference)) {
                     stepResult.minuend = BigInteger.valueOf(nextDigitInDividend);
                 } else {
@@ -174,7 +176,6 @@ public class IntegerDivision extends Operation {
 
     @Override
     public String toString() {
-        Formatter formatter = new Formatter();
         StringBuilder resultToPrint = new StringBuilder();
         DivisionResult result = calculate();
         List<IntermediateDivisionResult> stepResults = result.steps;

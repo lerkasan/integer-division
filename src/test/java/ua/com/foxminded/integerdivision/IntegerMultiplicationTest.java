@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class IntegerMultiplicationTest {
 
     private IntegerMultiplication underTest;
-    private static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
 
     @Test
     void shouldPrintLongMultiplicationWithZeroMultiplicand() {
@@ -208,7 +207,7 @@ public class IntegerMultiplicationTest {
         BigInteger multiplier = BigInteger.valueOf(-812);
         underTest = new IntegerMultiplication(null,  multiplier);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
@@ -216,6 +215,16 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = BigInteger.valueOf(-812);
         underTest = new IntegerMultiplication(multiplicand,  null);
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
-        assertEquals(NULL_ARGUMENT_MESSAGE, exception.getMessage());
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
+    }
+
+    @Test
+    void shouldReturnJson() {
+        BigInteger multiplicand = BigInteger.valueOf(142);
+        BigInteger multiplier = BigInteger.valueOf(23);
+        underTest = new IntegerMultiplication(multiplicand, multiplier);
+        String actual = underTest.toJson();
+        String expected = "{\"product\":\"3266\",\"steps\":[{\"addend\":\"426\"},{\"addend\":\"284\"}]}";
+        assertEquals(expected, actual);
     }
 }
