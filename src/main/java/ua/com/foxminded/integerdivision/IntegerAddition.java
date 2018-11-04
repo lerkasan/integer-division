@@ -50,7 +50,7 @@ public class IntegerAddition extends Operation {
 
     public AdditionResult calculate() {
         if ((firstAddend == null) || (secondAddend == null)) {
-            throw new IllegalArgumentException(this.NULL_ARGUMENT_MESSAGE);
+            throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
         AdditionResult result = new AdditionResult();
         if (BigInteger.ZERO.equals(firstAddend)) {
@@ -149,7 +149,7 @@ public class IntegerAddition extends Operation {
                     secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
 
-                if ((firstDigit < secondDigit) && (firstAddendLength >= secondAddendLength) && (absoluteFirstAddend.compareTo(absoluteSecondAddend) > 0)) {
+                if ((firstDigit + previousMemorized < secondDigit) && (firstAddendLength >= secondAddendLength) && (absoluteFirstAddend.compareTo(absoluteSecondAddend) > 0)) {
                     step.memorized = -1;
                 } else {
                     step.memorized = 0;

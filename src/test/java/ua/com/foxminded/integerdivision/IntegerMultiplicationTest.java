@@ -24,6 +24,10 @@ public class IntegerMultiplicationTest {
                 "* --\n" +
                 "   0";
         assertEquals(expected, actual);
+
+        expected = multiplicand.multiply(multiplier).toString();
+        actual = underTest.getProduct();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -38,6 +42,10 @@ public class IntegerMultiplicationTest {
                 "* -------\n" +
                 "        0";
         assertEquals(expected, actual);
+
+        expected = multiplicand.multiply(multiplier).toString();
+        actual = underTest.getProduct();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -51,6 +59,10 @@ public class IntegerMultiplicationTest {
                 "        1\n" +
                 "* -------\n" +
                 "  -235436";
+        assertEquals(expected, actual);
+
+        expected = multiplicand.multiply(multiplier).toString();
+        actual = underTest.getProduct();
         assertEquals(expected, actual);
     }
 
