@@ -10,13 +10,15 @@ import java.util.List;
 public class IntegerMultiplication extends Operation {
     private BigInteger multiplicand;
     private BigInteger multiplier;
+    private MultiplicationResult result;
 
-    Formatter formatter = new Formatter();
+    private Formatter formatter = new Formatter();
 
     public IntegerMultiplication(BigInteger multiplicand, BigInteger multiplier) {
         super(2, 1, Arrays.asList(multiplicand, multiplier));
         this.multiplicand = multiplicand;
         this.multiplier = multiplier;
+        this.result = calculate();
     }
 
     protected class MultiplicationResult extends Result {
@@ -41,11 +43,12 @@ public class IntegerMultiplication extends Operation {
         private String addend;
     }
 
-    public String getProduct() {
-        return calculate().product;
+    public String getResult() {
+        return result.product;
     }
 
-    protected IntegerMultiplication.MultiplicationResult calculate() {
+    @Override
+    protected MultiplicationResult calculate() {
         if ((multiplicand == null) || (multiplier == null)) {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
@@ -77,7 +80,6 @@ public class IntegerMultiplication extends Operation {
             }
             step.addend = combineAddendDigits(digits);
             step.rearIndex = multiplierLength - multiplierIndex - 1;
-//            step.rearIndex = multiplierIndex - multiplierLength - 1;
             steps.add(step);
         }
 
@@ -86,8 +88,7 @@ public class IntegerMultiplication extends Operation {
         if (isResultNegativeInteger) {
              product = "-" + product;
         }
-        MultiplicationResult result = new MultiplicationResult(product, steps);
-        return result;
+        return new MultiplicationResult(product, steps);
     }
 
     private String addAddends(List<IntermediateMultiplicationResult> steps) {
@@ -95,7 +96,6 @@ public class IntegerMultiplication extends Operation {
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
             IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).addend + zerosAtAddendTail));
-            addition.calculate();
             sum = addition.getResult();
         }
         return sum;
@@ -110,7 +110,6 @@ public class IntegerMultiplication extends Operation {
     }
 
     public String toString() {
-        MultiplicationResult result = calculate();
         int multiplicandLength = multiplicand.toString().length();
         int multiplierLength = multiplier.toString().length();
         int productLength = result.product.length();
@@ -119,21 +118,20 @@ public class IntegerMultiplication extends Operation {
         int multiplicandOffset = maxLength - multiplicandLength;
         int multiplierOffset = maxLength - multiplierLength;
         int productOffset = maxLength - productLength;
-
-        String output = formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
+        StringBuilder output = new StringBuilder();
+        output.append(formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
                 + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
-                + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n";
+                + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n");
         if (!"0".equals(result.product) && (result.steps.size() > 1)) {
             for (IntermediateMultiplicationResult step : result.steps) {
                 int addendOffset = maxLength - step.addend.length();
                 if (!BigInteger.ZERO.equals(new BigInteger(step.addend))) {
-                    output += formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n";
+                    output.append(formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n");
                 }
             }
-            output += "+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n";
+            output.append("+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n");
         }
-        output += formatter.getOffsetSpaces(productOffset + 2) + result.product;
-        System.out.println();
-        return output;
+        output.append(formatter.getOffsetSpaces(productOffset + 2) + result.product);
+        return output.toString();
     }
 }

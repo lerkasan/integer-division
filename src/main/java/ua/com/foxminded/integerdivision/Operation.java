@@ -10,17 +10,11 @@ import java.util.List;
 abstract class Operation {
     protected static final String EMPTY_RESULTS_MESSAGE = "Empty result array.";
     protected static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
-    protected static final String OPERANDS_MISMATCH_MESSAGE = "Amount of operands doesn't match operation parity,";
+    private static final String OPERANDS_MISMATCH_MESSAGE = "Amount of operands doesn't match operation parity,";
 
     private int arity;
     private int priority;
-    private String result;
-
-    public String getResult() {
-        return result;
-    }
-
-    protected List<BigInteger> operands;
+    private List<BigInteger> operands;
 
     protected Operation(int arity, int priority, List<BigInteger> operands) {
         if (operands == null) {
@@ -38,7 +32,9 @@ abstract class Operation {
         protected int rearIndex;
     }
 
-    abstract protected Result calculate();
+    protected abstract Result calculate();
+
+    protected abstract String getResult();
 
     public abstract String toString();
 

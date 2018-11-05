@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MathExpressionParserTest extends MathExpressionParser {
 
     private static final String NULL_INFIX = "Null infix string can't be converted to postfix.";
-    private static final String NULL_POSTFIX = "Null postix string can't be evaluated.";
+    private static final String NULL_POSTFIX = "Null postfix string can't be evaluated.";
     private static final String INVALID_SYMBOL = "Can't evaluate expression due to invalid symbol ";
     private static final String LETTERS_NOT_ALLOWED = "Letters are not allowed in arithmetic expressions. Invalid symbol ";
     private static final String DECIMALS_NOT_ALLOWED = "Only integer numbers are allowed in the expression. Invalid symbol ";

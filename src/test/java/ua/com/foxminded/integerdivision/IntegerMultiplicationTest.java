@@ -25,7 +25,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -43,7 +43,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -61,7 +61,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -88,7 +88,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -128,7 +128,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -150,7 +150,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -172,7 +172,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -198,23 +198,21 @@ public class IntegerMultiplicationTest {
         assertEquals(expected, actual);
 
         expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getProduct();
+        actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
     @Test
     void shouldThrowExceptionWithNullMultiplicand() {
         BigInteger multiplier = BigInteger.valueOf(-812);
-        underTest = new IntegerMultiplication(null,  multiplier);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerMultiplication(null,  multiplier));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWithNullMultiplier() {
         BigInteger multiplicand = BigInteger.valueOf(-812);
-        underTest = new IntegerMultiplication(multiplicand,  null);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerMultiplication(multiplicand,  null));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 

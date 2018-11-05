@@ -1,7 +1,5 @@
 package ua.com.foxminded.integerdivision;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Main {

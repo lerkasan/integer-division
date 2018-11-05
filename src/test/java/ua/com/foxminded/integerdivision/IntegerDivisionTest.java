@@ -263,16 +263,14 @@ public class IntegerDivisionTest {
     @Test
     void shouldThrowExceptionWithNullDividend() {
         BigInteger divisor = BigInteger.valueOf(-812);
-        underTest = new IntegerDivision(null,  divisor);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerDivision(null,  divisor));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWithNullDivisor() {
         BigInteger dividend = BigInteger.valueOf(-812);
-        underTest = new IntegerDivision(dividend, null);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerDivision(dividend, null));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
@@ -280,8 +278,7 @@ public class IntegerDivisionTest {
     void shouldThrowExceptionWithZeroDivisor() {
         BigInteger dividend = BigInteger.valueOf(-813632);
         BigInteger divisor = BigInteger.ZERO;
-        underTest = new IntegerDivision(dividend,  divisor);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerDivision(dividend,  divisor));
         assertEquals(IntegerDivision.DIVISION_BY_ZERO_MESSAGE, exception.getMessage());
     }
 

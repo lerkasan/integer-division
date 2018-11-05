@@ -1,9 +1,11 @@
 package ua.com.foxminded.integerdivision;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class IntegerDivision extends Operation {
@@ -11,6 +13,7 @@ public class IntegerDivision extends Operation {
 
     private BigInteger dividend;
     private BigInteger divisor;
+    private DivisionResult result;
 
     private Formatter formatter = new Formatter();
 
@@ -18,6 +21,11 @@ public class IntegerDivision extends Operation {
         super(2,0, Arrays.asList(dividend, divisor));
         this.dividend = dividend;
         this.divisor = divisor;
+        this.result = calculate();
+    }
+
+    public String getResult() {
+        return result.quotient.toString();
     }
 
     protected class DivisionResult extends Result {
@@ -38,11 +46,11 @@ public class IntegerDivision extends Operation {
             this.steps = steps;
         }
 
-        public BigInteger getQuotient() {
+        protected BigInteger getQuotient() {
             return quotient;
         }
 
-        public BigInteger getRemainder() {
+        protected BigInteger getRemainder() {
             return remainder;
         }
     }
@@ -94,19 +102,19 @@ public class IntegerDivision extends Operation {
             throw new IllegalArgumentException(DIVISION_BY_ZERO_MESSAGE);
         }
         if (dividend.equals(BigInteger.ZERO)) {
-            return new DivisionResult(BigInteger.ZERO, BigInteger.ZERO, Arrays.asList(new IntermediateDivisionResult()));
+            return new DivisionResult(BigInteger.ZERO, BigInteger.ZERO, Collections.singletonList(new IntermediateDivisionResult()));
         }
         BigInteger absoluteDividend = dividend.abs();
         BigInteger absoluteDivisor = divisor.abs();
         int dividendLength = absoluteDividend.toString().length();
         if (absoluteDividend.compareTo(absoluteDivisor) < 0) {
             List<IntermediateDivisionResult> steps =
-                    Arrays.asList(new IntermediateDivisionResult(dividend, BigInteger.ZERO, dividend, BigInteger.ZERO, dividendLength - 1));
+                    Collections.singletonList(new IntermediateDivisionResult(dividend, BigInteger.ZERO, dividend, BigInteger.ZERO, dividendLength - 1));
             return new DivisionResult(BigInteger.ZERO, dividend, steps);
         }
         if (dividend.compareTo(divisor) == 0) {
             List<IntermediateDivisionResult> steps =
-                    Arrays.asList(new IntermediateDivisionResult(dividend, divisor, BigInteger.ZERO, BigInteger.ONE, dividendLength - 1));
+                    Collections.singletonList(new IntermediateDivisionResult(dividend, divisor, BigInteger.ZERO, BigInteger.ONE, dividendLength - 1));
             return new DivisionResult(BigInteger.ONE, BigInteger.ZERO, steps);
         }
         BigInteger previousRemainder = BigInteger.ZERO;
@@ -170,18 +178,12 @@ public class IntegerDivision extends Operation {
         return quotient;
     }
 
-    public String getQuotient() {
-        return calculate().quotient.toString();
-    }
-
     @Override
     public String toString() {
         StringBuilder resultToPrint = new StringBuilder();
-        DivisionResult result = calculate();
         List<IntermediateDivisionResult> stepResults = result.steps;
         BigInteger absoluteDividend = dividend.abs();
         int absoluteDividendLength = absoluteDividend.toString().length();
-        System.out.println();
         resultToPrint.append("_" + dividend + " | " + divisor + "\n");
         int stepCounter = 0;
         for (IntermediateDivisionResult step : stepResults) {

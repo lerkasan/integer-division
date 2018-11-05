@@ -249,8 +249,7 @@ public class IntegerSubtractionTest {
     @Test
     void shouldThrowExceptionWithNullminuend() {
         BigInteger subtrahend = BigInteger.valueOf(-812);
-        underTest = new IntegerSubtraction(null,  subtrahend);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerSubtraction(null,  subtrahend));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
@@ -258,8 +257,7 @@ public class IntegerSubtractionTest {
     @Test
     void shouldThrowExceptionWithNullsubtrahend() {
         BigInteger minuend = BigInteger.valueOf(-812);
-        underTest = new IntegerSubtraction(minuend, null);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerSubtraction(minuend, null));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 

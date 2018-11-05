@@ -11,13 +11,8 @@ public class IntegerSubtraction extends IntegerAddition {
         super(minuend, BigInteger.valueOf(-1).multiply(subtrahend));
     }
 
-    public AdditionResult calculate() {
-        return super.calculate();
-    }
-
+    @Override
     public String toString() {
-        String result = formatOutput('-');
-        System.out.println();
-        return result;
+        return formatOutput('-');
     }
 }

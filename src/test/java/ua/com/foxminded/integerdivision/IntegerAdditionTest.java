@@ -266,16 +266,14 @@ public class IntegerAdditionTest {
     @Test
     void shouldThrowExceptionWithNullFirstAddend() {
         BigInteger secondAddend = BigInteger.valueOf(-812);
-        underTest = new IntegerAddition(null,  secondAddend);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerAddition(null,  secondAddend));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionWithNullSecondAddend() {
         BigInteger firstAddend = BigInteger.valueOf(-812);
-        underTest = new IntegerAddition(firstAddend, null);
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.calculate());
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> new IntegerAddition(firstAddend, null));
         assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
     }
 
