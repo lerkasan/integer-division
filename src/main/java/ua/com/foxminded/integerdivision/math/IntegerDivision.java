@@ -1,13 +1,14 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
+// TODO Is it necessary to have dependency on the 'text' package inside the 'math' ? Good code avoids such things. Math should be self-contained.
 public class IntegerDivision extends Operation {
     protected static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
 
@@ -55,6 +56,7 @@ public class IntegerDivision extends Operation {
         }
     }
 
+    // TODO probably we have no other options unless to define this class as 'public' so that other classes (including Formatter) can use it
     private class IntermediateDivisionResult extends Result{
         @JsonProperty
         private BigInteger minuend;

@@ -1,7 +1,9 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import ua.com.foxminded.integerdivision.math.IntegerSubtraction;
+import ua.com.foxminded.integerdivision.math.Operation;
 
 import java.math.BigInteger;
 

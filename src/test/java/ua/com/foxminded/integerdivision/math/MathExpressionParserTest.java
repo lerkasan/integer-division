@@ -1,6 +1,7 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
+import ua.com.foxminded.integerdivision.math.MathExpressionParser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

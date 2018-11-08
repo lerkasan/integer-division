@@ -1,4 +1,6 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
+
+import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
 import java.util.*;

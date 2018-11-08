@@ -1,4 +1,4 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,15 +27,17 @@ abstract class Operation {
         this.priority = priority;
         this.operands = operands;
     }
-
+    // TODO extract this class into 'math' pak.
     protected class Result {
         protected int rearIndex;
     }
 
     protected abstract Result calculate();
 
-    protected abstract String getResult();
+    protected abstract String /*TODO I'm totally not sure that result of math operation should be a String instead
+        of an object with some array/fields */ getResult();
 
+    // TODO looks pretty weird (coz already defined in java.lang.Object), but I got the idea, nevertheless at least javadoc should be added
     public abstract String toString();
 
     public String toJson() {

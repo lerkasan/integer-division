@@ -1,12 +1,15 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO move this class to separate subpackage 'addition' (inside 'math')
+// TODO do the same for other similar classes
 public class IntegerAddition extends Operation {
     private BigInteger firstAddend;
     private BigInteger secondAddend;
@@ -21,7 +24,8 @@ public class IntegerAddition extends Operation {
         this.result = calculate();
     }
 
-    protected class AdditionResult extends Result {
+    // TODO extract this class into separate subpackage 'addition' (static will be removed)
+    public static class AdditionResult extends Result {
         @JsonProperty
         private String sum;
 
@@ -182,6 +186,8 @@ public class IntegerAddition extends Operation {
         return formatOutput('+');
     }
 
+    // TODO Speaking honestly we do the Formatter's job right here so we mixed 'math' and 'test' concers. Which is SRP & high cohesion principles violation. :(
+    // Can we think out how to follow that principles? Maybe you could try to xomehow decouple, extract this into separate, maybe special formatter of addition? Then we could look what GOF pattern can be employed (Strategy?, Bridge?)
     protected String formatOutput(char operationSign) {
         String result = "";
         String sum = getResult();

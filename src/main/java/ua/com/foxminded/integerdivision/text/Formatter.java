@@ -1,7 +1,10 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.text;
+
+import ua.com.foxminded.integerdivision.math.Operation;
 
 import java.math.BigInteger;
 
+// TODO lookin on this class I would say it's a way too small, and there's nothing surprising about that coz all the hardcore formatting is in the operations
 public class Formatter {
 
     protected static final String ILLEGAL_INDEX_MESSAGE = "Illegal index. Index should be in diapason from zero to number length minus one.";
@@ -40,6 +43,7 @@ public class Formatter {
         }
     }
 
+    // TODO probably this method shouldn't be here
     protected int findDigitAtIndex(BigInteger number, int index) {
         checkIndexRange(number, index);
         BigInteger absoluteNumber = number.abs();

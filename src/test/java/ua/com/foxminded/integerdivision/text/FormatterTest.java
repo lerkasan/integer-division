@@ -1,6 +1,8 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.text;
 
 import org.junit.jupiter.api.Test;
+import ua.com.foxminded.integerdivision.math.Operation;
+import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
 

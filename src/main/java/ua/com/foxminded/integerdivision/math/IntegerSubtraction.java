@@ -1,4 +1,4 @@
-package ua.com.foxminded.integerdivision;
+package ua.com.foxminded.integerdivision.math;
 
 import java.math.BigInteger;
 
