@@ -22,7 +22,7 @@ public class IntegerAddition extends Operation {
         this.result = calculate();
     }
     
-    public String getResult() {
+    public BigInteger getResult() {
         return result.getSum();
     }
 
@@ -33,19 +33,19 @@ public class IntegerAddition extends Operation {
         }
         AdditionResult result = new AdditionResult();
         if (BigInteger.ZERO.equals(firstAddend)) {
-            return new AdditionResult(secondAddend.toString());
+            return new AdditionResult(secondAddend);
         }
         if (BigInteger.ZERO.equals(secondAddend)) {
-            return new AdditionResult(firstAddend.toString());
+            return new AdditionResult(firstAddend);
         }
         if ((BigInteger.ZERO.compareTo(firstAddend) < 0) && (BigInteger.ZERO.compareTo(secondAddend) < 0)) {
             return addDigits(firstAddend, secondAddend);
         }
         if ((BigInteger.ZERO.compareTo(firstAddend) > 0) && (BigInteger.ZERO.compareTo(secondAddend) > 0)) {
              AdditionResult positiveResult = addDigits(firstAddend, secondAddend);
-             if (!"0".equals(positiveResult.getSum())) {
+             if (!BigInteger.ZERO.equals(positiveResult.getSum())) {
                  String sum = "-" + positiveResult.getSum();
-                 return new AdditionResult(sum, positiveResult.getSteps());
+                 return new AdditionResult(new BigInteger(sum), positiveResult.getSteps());
              }
              return positiveResult;
         }
@@ -88,7 +88,7 @@ public class IntegerAddition extends Operation {
                 sum.append(lastStep.getMemorized());
             }
             String finalSum = combineSumDigits(steps, sum);
-            return new AdditionResult(finalSum, steps);
+            return new AdditionResult(new BigInteger(finalSum), steps);
         } else {
             return addDigits(secondAddend, firstAddend);
         }
@@ -129,12 +129,12 @@ public class IntegerAddition extends Operation {
             if ((firstAddend.compareTo(secondAddend) < 0) && (!finalSum.startsWith("-"))) {
                 finalSum = "-" + finalSum;
             }
-            return new AdditionResult(finalSum, steps);
+            return new AdditionResult(new BigInteger(finalSum), steps);
         } else {
             AdditionResult negativeResult = subtractDigits(BigInteger.valueOf(-1).multiply(secondAddend), BigInteger.valueOf(-1).multiply(firstAddend));
-            String finalSum = negativeResult.getSum();
-            if (!"0".equals(negativeResult.getSum()) && !finalSum.startsWith("-")) {
-                finalSum = "-" + negativeResult.getSum();
+            BigInteger finalSum = negativeResult.getSum();
+            if (!BigInteger.ZERO.equals(negativeResult.getSum()) && (BigInteger.ZERO.compareTo(finalSum) <= 0)) {
+                finalSum = BigInteger.valueOf(-1).multiply(negativeResult.getSum());
             }
             return new AdditionResult(finalSum, negativeResult.getSteps());
         }
@@ -159,7 +159,7 @@ public class IntegerAddition extends Operation {
     // Can we think out how to follow that principles? Maybe you could try to xomehow decouple, extract this into separate, maybe special formatter of addition? Then we could look what GOF pattern can be employed (Strategy?, Bridge?)
     protected String formatOutput(char operationSign) {
         String result;
-        String sum = getResult();
+        String sum = getResult().toString();
         if (operationSign == '-') {
             secondAddend = BigInteger.valueOf(-1).multiply(secondAddend);
         }

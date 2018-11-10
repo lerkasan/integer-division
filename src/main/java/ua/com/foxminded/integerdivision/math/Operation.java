@@ -51,8 +51,7 @@ public abstract class Operation {
         }
     }
 
-    protected abstract String /*TODO I'm totally not sure that result of math operation should be a String instead
-        of an object with some array/fields */ getResult();
+    protected abstract BigInteger getResult();
 
     public String toJson() {
         String json = "";
@@ -62,6 +61,7 @@ public abstract class Operation {
         try {
             json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
+            //my TODO User-friendly output
             e.printStackTrace();
         }
         return json;

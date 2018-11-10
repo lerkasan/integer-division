@@ -17,16 +17,16 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = BigInteger.ZERO;
         BigInteger multiplier = BigInteger.valueOf(14);
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "   0\n" +
                 "  14\n" +
                 "* --\n" +
                 "   0";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -35,16 +35,16 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = BigInteger.valueOf(-235436);
         BigInteger multiplier = BigInteger.ZERO;
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  -235436\n" +
                 "        0\n" +
                 "* -------\n" +
                 "        0";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -53,16 +53,16 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = BigInteger.valueOf(-235436);
         BigInteger multiplier = BigInteger.ONE;
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  -235436\n" +
                 "        1\n" +
                 "* -------\n" +
                 "  -235436";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -71,8 +71,8 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = BigInteger.valueOf(865467669);
         BigInteger multiplier = BigInteger.valueOf(13526574);
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "          865467669\n" +
                 "           13526574\n" +
                 "        * ---------\n" +
@@ -86,10 +86,10 @@ public class IntegerMultiplicationTest {
                 "   865467669\n" +
                 "+ -----------------\n" +
                 "  11706812469336006";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -98,8 +98,8 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = new BigInteger("-723853632645632");
         BigInteger multiplier = new BigInteger("814325621436437516224");
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "                       -723853632645632\n" +
                 "                  814325621436437516224\n" +
                 "                * ---------------------\n" +
@@ -126,10 +126,10 @@ public class IntegerMultiplicationTest {
                 "   5790829061165056\n" +
                 "+ -------------------------------------\n" +
                 "  -589452559233177032879051352042733568";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -138,8 +138,8 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = new BigInteger("1530069200");
         BigInteger multiplier = new BigInteger("-67090");
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "        1530069200\n" +
                 "            -67090\n" +
                 "      * ----------\n" +
@@ -148,10 +148,10 @@ public class IntegerMultiplicationTest {
                 "    9180415200\n" +
                 "+ ----------------\n" +
                 "  -102652342628000";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -160,8 +160,8 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = new BigInteger("-19071359832");
         BigInteger multiplier = new BigInteger("-789");
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "    -19071359832\n" +
                 "            -789\n" +
                 "  * ------------\n" +
@@ -170,10 +170,10 @@ public class IntegerMultiplicationTest {
                 "  133499518824\n" +
                 "+ --------------\n" +
                 "  15047302907448";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -182,8 +182,8 @@ public class IntegerMultiplicationTest {
         BigInteger multiplicand = new BigInteger("12340005600789");
         BigInteger multiplier = new BigInteger("980076500004300");
         underTest = new IntegerMultiplication(multiplicand, multiplier);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "                 12340005600789\n" +
                 "                980076500004300\n" +
                 "              * ---------------\n" +
@@ -196,10 +196,10 @@ public class IntegerMultiplicationTest {
                 "  111060050407101\n" +
                 "+ -----------------------------\n" +
                 "  12094149499254742382583392700";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = multiplicand.multiply(multiplier).toString();
-        actual = underTest.getResult();
+        BigInteger expected = multiplicand.multiply(multiplier);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -223,7 +223,7 @@ public class IntegerMultiplicationTest {
         BigInteger multiplier = BigInteger.valueOf(23);
         underTest = new IntegerMultiplication(multiplicand, multiplier);
         String actual = underTest.toJson();
-        String expected = "{\"product\":\"3266\",\"steps\":[{\"addend\":\"426\"},{\"addend\":\"284\"}]}";
+        String expected = "{\"product\":3266,\"steps\":[{\"addend\":\"426\"},{\"addend\":\"284\"}]}";
         assertEquals(expected, actual);
     }
 }

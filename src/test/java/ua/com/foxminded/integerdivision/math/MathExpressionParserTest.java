@@ -3,10 +3,12 @@ package ua.com.foxminded.integerdivision.math;
 import org.junit.jupiter.api.Test;
 import ua.com.foxminded.integerdivision.math.MathExpressionParser;
 
+import java.math.BigInteger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MathExpressionParserTest extends MathExpressionParser {
+public class MathExpressionParserTest {
 
     private static final String NULL_INFIX = "Null infix string can't be converted to postfix.";
     private static final String NULL_POSTFIX = "Null postfix string can't be evaluated.";
@@ -66,8 +68,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "0 67 - 0 42 - 2 / + 15 4 - 0 7 - * - 3 0 9 - * - 8 0 2 - / +"; //infix = "-67+-42/2-(15-4)*-7-3*-9+8/-2";
         underTest = new MathExpressionParser();
         boolean verbose = true;
-        String actual = underTest.evaluatePostfixExpression(expression, verbose);
-        String expected = "12";
+        BigInteger actual = underTest.evaluatePostfixExpression(expression, verbose);
+        BigInteger expected = BigInteger.valueOf(12);
         assertEquals(expected, actual);
     }
 
@@ -76,8 +78,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "0 5 - 3 0 4 - 16 + * +"; //infix = "-5+3*((0-4)+16)";
         underTest = new MathExpressionParser();
         boolean verbose = true;
-        String actual = underTest.evaluatePostfixExpression(expression, verbose);
-        String expected = "31";
+        BigInteger actual = underTest.evaluatePostfixExpression(expression, verbose);
+        BigInteger expected = BigInteger.valueOf(31);
         assertEquals(expected, actual);
     }
 
@@ -86,8 +88,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "(15+6)";
         underTest = new MathExpressionParser();
         boolean verbose = true;
-        String actual = underTest.evaluate(expression, verbose);
-        String expected = "21";
+        BigInteger actual = underTest.evaluate(expression, verbose);
+        BigInteger expected = BigInteger.valueOf(21);
         assertEquals(expected, actual);
     }
 
@@ -132,8 +134,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "8*(15+6)";
         underTest = new MathExpressionParser();
         boolean verbose = true;
-        String actual = underTest.evaluate(expression, verbose);
-        String expected = "168";
+        BigInteger actual = underTest.evaluate(expression, verbose);
+        BigInteger expected = BigInteger.valueOf(168);
         assertEquals(expected, actual);
     }
 
@@ -151,8 +153,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "(15+6)*9";
         underTest = new MathExpressionParser();
         boolean verbose = true;
-        String actual = underTest.evaluate(expression, verbose);
-        String expected = "189";
+        BigInteger actual = underTest.evaluate(expression, verbose);
+        BigInteger expected = BigInteger.valueOf(189);
         assertEquals(expected, actual);
     }
 
@@ -227,8 +229,8 @@ public class MathExpressionParserTest extends MathExpressionParser {
         String expression = "(-67-42/2)";
         boolean verbose = true;
         underTest = new MathExpressionParser();
-        String actual = underTest.evaluate(expression, verbose);
-        assertEquals("-88", actual);
+        BigInteger actual = underTest.evaluate(expression, verbose);
+        assertEquals(BigInteger.valueOf(-88), actual);
     }
 
     @Test

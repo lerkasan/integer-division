@@ -1,8 +1,6 @@
 package ua.com.foxminded.integerdivision.math.multiplication;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.foxminded.integerdivision.math.Operation;
-import ua.com.foxminded.integerdivision.math.Result;
 import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
 import ua.com.foxminded.integerdivision.text.Formatter;
 
@@ -25,7 +23,7 @@ public class IntegerMultiplication extends Operation {
         this.result = calculate();
     }
 
-    public String getResult() {
+    public BigInteger getResult() {
         return result.getProduct();
     }
 
@@ -35,11 +33,11 @@ public class IntegerMultiplication extends Operation {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
         if (BigInteger.ZERO.equals(multiplicand)) {
-            return new MultiplicationResult("0");
+            return new MultiplicationResult(BigInteger.ZERO);
 
         }
         if (BigInteger.ZERO.equals(multiplier)) {
-            return new MultiplicationResult("0");
+            return new MultiplicationResult(BigInteger.ZERO);
         }
         BigInteger absoluteMultiplicand = multiplicand.abs();
         BigInteger absoluteMultiplier= multiplier.abs();
@@ -66,18 +64,18 @@ public class IntegerMultiplication extends Operation {
         }
 
         boolean isResultNegativeInteger = (BigInteger.ZERO.compareTo(multiplicand) > 0) ^ (BigInteger.ZERO.compareTo(multiplier) > 0);
-        String product = addAddends(steps);
+        BigInteger product = addAddends(steps);
         if (isResultNegativeInteger) {
-             product = "-" + product;
+             product = BigInteger.valueOf(-1).multiply(product);
         }
         return new MultiplicationResult(product, steps);
     }
 
-    private String addAddends(List<IntermediateMultiplicationResult> steps) {
-        String sum = "0";
+    private BigInteger addAddends(List<IntermediateMultiplicationResult> steps) {
+        BigInteger sum = BigInteger.ZERO;
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
-            IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).getAddend() + zerosAtAddendTail));
+            IntegerAddition addition = new IntegerAddition(sum, new BigInteger(steps.get(index).getAddend() + zerosAtAddendTail));
             sum = addition.getResult();
         }
         return sum;
@@ -94,7 +92,7 @@ public class IntegerMultiplication extends Operation {
     public String toString() {
         int multiplicandLength = multiplicand.toString().length();
         int multiplierLength = multiplier.toString().length();
-        int productLength = result.getProduct().length();
+        int productLength = result.getProduct().toString().length();
         int operandMaxLength = multiplierLength > multiplicandLength ? multiplierLength : multiplicandLength;
         int maxLength = operandMaxLength > productLength ? operandMaxLength : productLength;
         int multiplicandOffset = maxLength - multiplicandLength;
@@ -104,7 +102,7 @@ public class IntegerMultiplication extends Operation {
         output.append(formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
                 + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
                 + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n");
-        if (!"0".equals(result.getProduct()) && (result.getSteps().size() > 1)) {
+        if (!BigInteger.ZERO.equals(result.getProduct()) && (result.getSteps().size() > 1)) {
             for (IntermediateMultiplicationResult step : result.getSteps()) {
                 int addendOffset = maxLength - step.getAddend().length();
                 if (!BigInteger.ZERO.equals(new BigInteger(step.getAddend()))) {

@@ -9,7 +9,7 @@ import java.math.BigInteger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class IntegerDivisionTest extends  IntegerDivision {
+public class IntegerDivisionTest {
 
     private static IntegerDivision underTest;
 

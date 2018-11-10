@@ -174,16 +174,16 @@ public class MathExpressionParser {
         return outputToPostfix.toString();
     }
 
-    public String evaluatePostfixExpression(String postfix, boolean verbose) {
+    public BigInteger evaluatePostfixExpression(String postfix, boolean verbose) {
         if (postfix == null) {
             throw new IllegalArgumentException(NULL_POSTFIX);
         }
         char[] postfixChars = postfix.toCharArray();
-        Deque<String> operandStack = new ArrayDeque<>();
+        Deque<BigInteger> operandStack = new ArrayDeque<>();
         Formatter formatter = new Formatter();
         String operand = "";
-        String firstOperand;
-        String secondOperand;
+        BigInteger firstOperand;
+        BigInteger secondOperand;
         int step = 0;
         int position = 0;
         for (char postfixChar : postfixChars) {
@@ -192,7 +192,7 @@ public class MathExpressionParser {
                 operand += postfixChar;
             } else {
                 if (!"".equals(operand)) {
-                    operandStack.push(operand);
+                    operandStack.push(new BigInteger(operand));
                     operand = "";
                 }
                 if (postfixChar != ' ') {
@@ -203,10 +203,10 @@ public class MathExpressionParser {
                         throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + postfixChar + AT_POSITION + position + "\n"
                                 + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                     }
-                    String result;
+                    BigInteger result;
                     switch (postfixChar) {
                         case '+':
-                            IntegerAddition addition = new IntegerAddition(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            IntegerAddition addition = new IntegerAddition(firstOperand, secondOperand);
                             result = addition.getResult();
                             if (verbose) {
                                 step++;
@@ -215,7 +215,7 @@ public class MathExpressionParser {
                             }
                             break;
                         case '-':
-                            IntegerSubtraction subtraction = new IntegerSubtraction(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            IntegerSubtraction subtraction = new IntegerSubtraction(firstOperand, secondOperand);
                             result = subtraction.getResult();
                             if (verbose) {
                                 step++;
@@ -224,7 +224,7 @@ public class MathExpressionParser {
                             }
                             break;
                         case '*':
-                            IntegerMultiplication multiplication = new IntegerMultiplication(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            IntegerMultiplication multiplication = new IntegerMultiplication(firstOperand, secondOperand);
                             result = multiplication.getResult();
                             if (verbose) {
                                 step++;
@@ -233,7 +233,7 @@ public class MathExpressionParser {
                             }
                             break;
                         case '/':
-                            IntegerDivision division = new IntegerDivision(new BigInteger(firstOperand), new BigInteger(secondOperand));
+                            IntegerDivision division = new IntegerDivision(firstOperand, secondOperand);
                             result = division.getResult();
                             if (verbose) {
                                 step++;
@@ -252,7 +252,7 @@ public class MathExpressionParser {
         return operandStack.pop();
     }
 
-    public String evaluate(String infix, boolean verbose) {
+    public BigInteger evaluate(String infix, boolean verbose) {
         String postfix = convertInfixToPostfix(infix);
         return evaluatePostfixExpression(postfix, verbose);
     }

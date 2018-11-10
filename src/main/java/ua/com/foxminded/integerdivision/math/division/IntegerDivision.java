@@ -11,15 +11,13 @@ import java.util.List;
 
 // TODO Is it necessary to have dependency on the 'text' package inside the 'math' ? Good code avoids such things. Math should be self-contained.
 public class IntegerDivision extends Operation {
-    protected static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
+    public static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
 
     private BigInteger dividend;
     private BigInteger divisor;
     private DivisionResult result;
 
     private Formatter formatter = new Formatter();
-
-    public IntegerDivision() {}
 
     public IntegerDivision(BigInteger dividend, BigInteger divisor) {
         super(2,0, Arrays.asList(dividend, divisor));
@@ -28,9 +26,8 @@ public class IntegerDivision extends Operation {
         this.result = calculate();
     }
 
-    // my TODO leave this result BigInteger
-    public String getResult() {
-        return result.getQuotient().toString();
+    public BigInteger getResult() {
+        return result.getQuotient();
     }
 
     private BigInteger findFirstDigits(BigInteger number, int index) {

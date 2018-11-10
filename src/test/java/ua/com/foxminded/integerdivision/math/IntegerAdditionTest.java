@@ -17,16 +17,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = BigInteger.ZERO;
         BigInteger secondAddend = BigInteger.valueOf(1454360);
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "        0\n" +
                 "  1454360\n" +
                 "+ -------\n" +
                 "  1454360";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -35,16 +35,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("-4654490235436700265");
         BigInteger secondAddend = BigInteger.ZERO;
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  -4654490235436700265\n" +
                 "                     0\n" +
                 "+ --------------------\n" +
                 "  -4654490235436700265";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -53,16 +53,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("142390237823005320");
         BigInteger secondAddend = new BigInteger("909235809253");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  142390237823005320\n" +
                 "        909235809253\n" +
                 "+ ------------------\n" +
                 "  142391147058814573";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -71,16 +71,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("-2389237895322306");
         BigInteger secondAddend = new BigInteger("-9823920");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  -2389237895322306\n" +
                 "           -9823920\n" +
                 "+ -----------------\n" +
                 "  -2389237905146226";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -89,16 +89,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("325643612070025");
         BigInteger secondAddend = new BigInteger("-548062382");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  325643612070025\n" +
                 "       -548062382\n" +
                 "+ ---------------\n" +
                 "  325643064007643";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -107,16 +107,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("20749823");
         BigInteger secondAddend = new BigInteger("-970312576003086");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "          20749823\n" +
                 "  -970312576003086\n" +
                 "+ ----------------\n" +
                 "  -970312555253263";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -125,16 +125,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("-902387923");
         BigInteger secondAddend = new BigInteger("1234");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  -902387923\n" +
                 "        1234\n" +
                 "+ ----------\n" +
                 "  -902386689";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -143,16 +143,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("-798015");
         BigInteger secondAddend = new BigInteger("25260032677542");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "         -798015\n" +
                 "  25260032677542\n" +
                 "+ --------------\n" +
                 "  25260031879527";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -161,16 +161,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("1");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  10000\n" +
                 "      1\n" +
                 "+ -----\n" +
                 "  10001";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -179,16 +179,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("-1");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  10000\n" +
                 "     -1\n" +
                 "+ -----\n" +
                 "   9999";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -197,16 +197,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("-89");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  10000\n" +
                 "    -89\n" +
                 "+ -----\n" +
                 "   9911";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -215,16 +215,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("-999");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  10000\n" +
                 "   -999\n" +
                 "+ -----\n" +
                 "   9001";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -233,16 +233,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("1234567");
         BigInteger secondAddend = new BigInteger("-1234567");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "   1234567\n" +
                 "  -1234567\n" +
                 "+ --------\n" +
                 "         0";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -251,16 +251,16 @@ public class IntegerAdditionTest {
         BigInteger firstAddend = new BigInteger("10000");
         BigInteger secondAddend = new BigInteger("-9999");
         underTest = new IntegerAddition(firstAddend, secondAddend);
-        String actual = underTest.toString();
-        String expected =
+        String actualOutput = underTest.toString();
+        String expectedOutput =
                 "  10000\n" +
                 "  -9999\n" +
                 "+ -----\n" +
                 "      1";
-        assertEquals(expected, actual);
+        assertEquals(expectedOutput, actualOutput);
 
-        expected = firstAddend.add(secondAddend).toString();
-        actual = underTest.getResult();
+        BigInteger expected = firstAddend.add(secondAddend);
+        BigInteger actual = underTest.getResult();
         assertEquals(expected, actual);
     }
 
@@ -284,41 +284,44 @@ public class IntegerAdditionTest {
         BigInteger secondAddend = new BigInteger("-999");
         underTest = new IntegerAddition(firstAddend, secondAddend);
         String actual = underTest.toJson();
-        String expected = "{\"sum\":\"9001\",\"steps\":[{\"digit\":1,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":9,\"memorized\":-1},{\"digit\":0,\"memorized\":0}]}";
+        String expected = "{\"sum\":9001,\"steps\":[{\"digit\":1,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":9,\"memorized\":-1},{\"digit\":0,\"memorized\":0}]}";
         assertEquals(expected, actual);
     }
 
 
-//
-//    @Test
-//    void shouldnotThrowExceptionWhenIndexInRange() {
-//        BigInteger number = new BigInteger("1234567890");
-//        int index = 9;
-//        underTest.checkIndexRange(number, index);
-//    }
-//
-//    @Test
-//    void shouldThrowExceptionWhenIndexOutOfRange() {
-//        BigInteger number = new BigInteger("1234567890");
-//        int index = 10;
-//        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(number, index));
-//        assertEquals(Formatter.ILLEGAL_INDEX_MESSAGE, exception.getMessage());
-//    }
-//
-//    @Test
-//    void shouldThrowExceptionWhenNullArgument() {
-//        int index = 10;
-//        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(null, index));
-//        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
-//    }
-//
-//    @Test
-//    void shouldFindDigitAtIndex() {
-//        BigInteger number = new BigInteger("1234567890");
-//        int index = 9;
-//        int actual = underTest.findDigitAtIndex(number, index);
-//        int expected = 0;
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    void shouldnotThrowExceptionWhenIndexInRange() {
+        BigInteger number = new BigInteger("1234567890");
+        int index = 9;
+        underTest = new IntegerAddition(BigInteger.valueOf((int) Math.random()), BigInteger.valueOf((int) Math.random()));
+        underTest.checkIndexRange(number, index);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIndexOutOfRange() {
+        BigInteger number = new BigInteger("1234567890");
+        int index = 10;
+        underTest = new IntegerAddition(BigInteger.valueOf((int) Math.random()), BigInteger.valueOf((int) Math.random()));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(number, index));
+        assertEquals(Operation.ILLEGAL_INDEX_MESSAGE, exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNullArgument() {
+        int index = 10;
+        underTest = new IntegerAddition(BigInteger.valueOf((int) Math.random()), BigInteger.valueOf((int) Math.random()));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(null, index));
+        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
+    }
+
+    @Test
+    void shouldFindDigitAtIndex() {
+        BigInteger number = new BigInteger("1234567890");
+        int index = 9;
+        underTest = new IntegerAddition(BigInteger.valueOf((int) Math.random()), BigInteger.valueOf((int) Math.random()));
+        int actual = underTest.findDigitAtIndex(number, index);
+        int expected = 0;
+        assertEquals(expected, actual);
+    }
 
 }

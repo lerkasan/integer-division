@@ -3,29 +3,30 @@ package ua.com.foxminded.integerdivision.math.multiplication;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ua.com.foxminded.integerdivision.math.Result;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public class MultiplicationResult extends Result {
     @JsonProperty
-    private String product;
+    private BigInteger product;
 
     @JsonProperty
     private List<IntermediateMultiplicationResult> steps;
 
-    public MultiplicationResult(String product) {
+    public MultiplicationResult(BigInteger product) {
         this.product = product;
     }
 
-    public MultiplicationResult(String product, List<IntermediateMultiplicationResult> steps) {
+    public MultiplicationResult(BigInteger product, List<IntermediateMultiplicationResult> steps) {
         this.product = product;
         this.steps = steps;
     }
 
-    public String getProduct() {
+    public BigInteger getProduct() {
         return product;
     }
 
-    public void setProduct(String product) {
+    public void setProduct(BigInteger product) {
         this.product = product;
     }
 
