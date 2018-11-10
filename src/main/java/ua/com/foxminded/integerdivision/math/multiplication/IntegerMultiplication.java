@@ -1,6 +1,9 @@
-package ua.com.foxminded.integerdivision.math;
+package ua.com.foxminded.integerdivision.math.multiplication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.foxminded.integerdivision.math.Operation;
+import ua.com.foxminded.integerdivision.math.Result;
+import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
 import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
@@ -22,30 +25,8 @@ public class IntegerMultiplication extends Operation {
         this.result = calculate();
     }
 
-    protected class MultiplicationResult extends Result {
-        @JsonProperty
-        private String product;
-
-        @JsonProperty
-        private List<IntermediateMultiplicationResult> steps;
-
-        private MultiplicationResult(String product) {
-            this.product = product;
-        }
-
-        private MultiplicationResult(String product, List<IntermediateMultiplicationResult> steps) {
-            this.product = product;
-            this.steps = steps;
-        }
-    }
-
-    private class IntermediateMultiplicationResult extends Result {
-        @JsonProperty
-        private String addend;
-    }
-
     public String getResult() {
-        return result.product;
+        return result.getProduct();
     }
 
     @Override
@@ -66,12 +47,12 @@ public class IntegerMultiplication extends Operation {
         int multiplierLength = absoluteMultiplier.toString().length();
         List<IntermediateMultiplicationResult> steps = new ArrayList<>();
         for (int multiplierIndex = multiplierLength - 1; multiplierIndex >= 0; multiplierIndex--) {
-            int multiplierDigit = formatter.findDigitAtIndex(absoluteMultiplier, multiplierIndex);
+            int multiplierDigit = findDigitAtIndex(absoluteMultiplier, multiplierIndex);
             int memorized = 0;
             List<Integer> digits = new ArrayList<>();
             IntermediateMultiplicationResult step = new IntermediateMultiplicationResult();
             for (int multiplicandIndex = multiplicandLength - 1; multiplicandIndex >= 0; multiplicandIndex--) {
-                int multiplicandDigit = formatter.findDigitAtIndex(absoluteMultiplicand, multiplicandIndex);
+                int multiplicandDigit = findDigitAtIndex(absoluteMultiplicand, multiplicandIndex);
                 int digit = (multiplicandDigit * multiplierDigit + memorized) % 10;
                 memorized = (multiplicandDigit * multiplierDigit + memorized) / 10;
                 digits.add(digit);
@@ -79,8 +60,8 @@ public class IntegerMultiplication extends Operation {
             if (memorized != 0) {
                 digits.add(memorized);
             }
-            step.addend = combineAddendDigits(digits);
-            step.rearIndex = multiplierLength - multiplierIndex - 1;
+            step.setAddend(combineAddendDigits(digits));
+            step.setRearIndex(multiplierLength - multiplierIndex - 1);
             steps.add(step);
         }
 
@@ -96,7 +77,7 @@ public class IntegerMultiplication extends Operation {
         String sum = "0";
         for (int index = 0; index < steps.size(); index++) {
             String zerosAtAddendTail = formatter.getRepeatingSymbols("0", index);
-            IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).addend + zerosAtAddendTail));
+            IntegerAddition addition = new IntegerAddition(new BigInteger(sum), new BigInteger(steps.get(index).getAddend() + zerosAtAddendTail));
             sum = addition.getResult();
         }
         return sum;
@@ -113,7 +94,7 @@ public class IntegerMultiplication extends Operation {
     public String toString() {
         int multiplicandLength = multiplicand.toString().length();
         int multiplierLength = multiplier.toString().length();
-        int productLength = result.product.length();
+        int productLength = result.getProduct().length();
         int operandMaxLength = multiplierLength > multiplicandLength ? multiplierLength : multiplicandLength;
         int maxLength = operandMaxLength > productLength ? operandMaxLength : productLength;
         int multiplicandOffset = maxLength - multiplicandLength;
@@ -123,16 +104,16 @@ public class IntegerMultiplication extends Operation {
         output.append(formatter.getOffsetSpaces(multiplicandOffset + 2) + multiplicand.toString() + "\n"
                 + formatter.getOffsetSpaces(multiplierOffset + 2) + multiplier.toString() + "\n"
                 + formatter.getOffsetSpaces(maxLength - operandMaxLength) + "* " + formatter.getLine(operandMaxLength) + "\n");
-        if (!"0".equals(result.product) && (result.steps.size() > 1)) {
-            for (IntermediateMultiplicationResult step : result.steps) {
-                int addendOffset = maxLength - step.addend.length();
-                if (!BigInteger.ZERO.equals(new BigInteger(step.addend))) {
-                    output.append(formatter.getOffsetSpaces(addendOffset - step.rearIndex + 2) + step.addend + "\n");
+        if (!"0".equals(result.getProduct()) && (result.getSteps().size() > 1)) {
+            for (IntermediateMultiplicationResult step : result.getSteps()) {
+                int addendOffset = maxLength - step.getAddend().length();
+                if (!BigInteger.ZERO.equals(new BigInteger(step.getAddend()))) {
+                    output.append(formatter.getOffsetSpaces(addendOffset - step.getRearIndex() + 2) + step.getAddend() + "\n");
                 }
             }
             output.append("+ " + formatter.getOffsetSpaces(productOffset) + formatter.getLine(maxLength) + "\n");
         }
-        output.append(formatter.getOffsetSpaces(productOffset + 2) + result.product);
+        output.append(formatter.getOffsetSpaces(productOffset + 2) + result.getProduct());
         return output.toString();
     }
 }

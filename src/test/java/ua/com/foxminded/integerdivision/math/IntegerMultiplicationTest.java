@@ -1,8 +1,7 @@
 package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.IntegerMultiplication;
-import ua.com.foxminded.integerdivision.math.Operation;
+import ua.com.foxminded.integerdivision.math.multiplication.IntegerMultiplication;
 
 import java.math.BigInteger;
 

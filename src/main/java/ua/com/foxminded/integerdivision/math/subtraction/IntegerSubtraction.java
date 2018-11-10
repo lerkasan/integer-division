@@ -1,4 +1,6 @@
-package ua.com.foxminded.integerdivision.math;
+package ua.com.foxminded.integerdivision.math.subtraction;
+
+import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
 
 import java.math.BigInteger;
 

@@ -7,14 +7,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.math.BigInteger;
 import java.util.List;
 
-abstract class Operation {
+public abstract class Operation {
     protected static final String EMPTY_RESULTS_MESSAGE = "Empty result array.";
     protected static final String NULL_ARGUMENT_MESSAGE = "One or more operands are null.";
     private static final String OPERANDS_MISMATCH_MESSAGE = "Amount of operands doesn't match operation parity,";
+    protected static final String ILLEGAL_INDEX_MESSAGE = "Illegal index. Index should be in diapason from zero to number length minus one.";
 
     private int arity;
     private int priority;
     private List<BigInteger> operands;
+
+    protected Operation() {}
 
     protected Operation(int arity, int priority, List<BigInteger> operands) {
         if (operands == null) {
@@ -27,18 +30,29 @@ abstract class Operation {
         this.priority = priority;
         this.operands = operands;
     }
-    // TODO extract this class into 'math' pak.
-    protected class Result {
-        protected int rearIndex;
-    }
 
     protected abstract Result calculate();
 
+    protected int findDigitAtIndex(BigInteger number, int index) {
+        checkIndexRange(number, index);
+        BigInteger absoluteNumber = number.abs();
+        char charAtIndex = String.valueOf(absoluteNumber).charAt(index);
+        return Integer.valueOf(String.valueOf(charAtIndex));
+    }
+
+    protected void checkIndexRange(BigInteger number, int index) {
+        if (number == null) {
+            throw new IllegalArgumentException(Operation.NULL_ARGUMENT_MESSAGE);
+        }
+        BigInteger absoluteNumber = number.abs();
+        int numberLength = String.valueOf(absoluteNumber).length();
+        if ((index >= numberLength) || (index < 0)) {
+            throw new IllegalArgumentException(ILLEGAL_INDEX_MESSAGE);
+        }
+    }
+
     protected abstract String /*TODO I'm totally not sure that result of math operation should be a String instead
         of an object with some array/fields */ getResult();
-
-    // TODO looks pretty weird (coz already defined in java.lang.Object), but I got the idea, nevertheless at least javadoc should be added
-    public abstract String toString();
 
     public String toJson() {
         String json = "";

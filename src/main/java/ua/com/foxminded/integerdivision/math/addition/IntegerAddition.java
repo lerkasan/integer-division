@@ -1,6 +1,6 @@
-package ua.com.foxminded.integerdivision.math;
+package ua.com.foxminded.integerdivision.math.addition;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.foxminded.integerdivision.math.Operation;
 import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// TODO move this class to separate subpackage 'addition' (inside 'math')
-// TODO do the same for other similar classes
 public class IntegerAddition extends Operation {
     private BigInteger firstAddend;
     private BigInteger secondAddend;
@@ -23,38 +21,9 @@ public class IntegerAddition extends Operation {
         this.secondAddend = secondAddend;
         this.result = calculate();
     }
-
-    // TODO extract this class into separate subpackage 'addition' (static will be removed)
-    public static class AdditionResult extends Result {
-        @JsonProperty
-        private String sum;
-
-        @JsonProperty
-        private List<IntermediateAdditionResult> steps;
-
-        private AdditionResult() {
-        }
-
-        private AdditionResult(String sum) {
-            this.sum = sum;
-        }
-
-        private AdditionResult(String sum, List<IntermediateAdditionResult> steps) {
-            this.sum = sum;
-            this.steps = steps;
-        }
-    }
-
-    private class IntermediateAdditionResult extends Result {
-        @JsonProperty
-        private int digit;
-
-        @JsonProperty
-        private int memorized;
-    }
-
+    
     public String getResult() {
-        return result.sum;
+        return result.getSum();
     }
 
     @Override
@@ -74,9 +43,9 @@ public class IntegerAddition extends Operation {
         }
         if ((BigInteger.ZERO.compareTo(firstAddend) > 0) && (BigInteger.ZERO.compareTo(secondAddend) > 0)) {
              AdditionResult positiveResult = addDigits(firstAddend, secondAddend);
-             if (!"0".equals(positiveResult.sum)) {
-                 String sum = "-" + positiveResult.sum;
-                 return new AdditionResult(sum, positiveResult.steps);
+             if (!"0".equals(positiveResult.getSum())) {
+                 String sum = "-" + positiveResult.getSum();
+                 return new AdditionResult(sum, positiveResult.getSteps());
              }
              return positiveResult;
         }
@@ -103,20 +72,20 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = formatter.findDigitAtIndex(absoluteFirstAddend, index);
+                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = formatter.findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
+                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
-                step.digit = (firstDigit + secondDigit + previousMemorized) % 10;
-                step.memorized = (firstDigit + secondDigit + previousMemorized) / 10;
-                previousMemorized = step.memorized;
+                step.setDigit((firstDigit + secondDigit + previousMemorized) % 10);
+                step.setMemorized((firstDigit + secondDigit + previousMemorized) / 10);
+                previousMemorized = step.getMemorized();
                 steps.add(step);
             }
             StringBuilder sum = new StringBuilder();
             IntermediateAdditionResult lastStep = steps.get(steps.size() - 1);
-            if (lastStep.memorized != 0) {
-                sum.append(lastStep.memorized);
+            if (lastStep.getMemorized() != 0) {
+                sum.append(lastStep.getMemorized());
             }
             String finalSum = combineSumDigits(steps, sum);
             return new AdditionResult(finalSum, steps);
@@ -139,19 +108,19 @@ public class IntegerAddition extends Operation {
             List<IntermediateAdditionResult> steps = new ArrayList<>();
             for (int index = maxLength - 1; index >= 0; index--) {
                 IntermediateAdditionResult step = new IntermediateAdditionResult();
-                int firstDigit = formatter.findDigitAtIndex(absoluteFirstAddend, index);
+                int firstDigit = findDigitAtIndex(absoluteFirstAddend, index);
                 int secondDigit = 0;
                 if (index >= lengthDelta) {
-                    secondDigit = formatter.findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
+                    secondDigit = findDigitAtIndex(absoluteSecondAddend, index - lengthDelta);
                 }
 
                 if ((firstDigit + previousMemorized < secondDigit) && (absoluteFirstAddend.compareTo(absoluteSecondAddend) > 0)) {
-                    step.memorized = -1;
+                    step.setMemorized(-1);
                 } else {
-                    step.memorized = 0;
+                    step.setMemorized(0);
                 }
-                step.digit = Math.abs((firstDigit - secondDigit + previousMemorized - step.memorized * 10) % 10);
-                previousMemorized = step.memorized;
+                step.setDigit(Math.abs((firstDigit - secondDigit + previousMemorized - step.getMemorized() * 10) % 10));
+                previousMemorized = step.getMemorized();
                 steps.add(step);
             }
             StringBuilder sum = new StringBuilder();
@@ -163,17 +132,17 @@ public class IntegerAddition extends Operation {
             return new AdditionResult(finalSum, steps);
         } else {
             AdditionResult negativeResult = subtractDigits(BigInteger.valueOf(-1).multiply(secondAddend), BigInteger.valueOf(-1).multiply(firstAddend));
-            String finalSum = negativeResult.sum;
-            if (!"0".equals(negativeResult.sum) && !finalSum.startsWith("-")) {
-                finalSum = "-" + negativeResult.sum;
+            String finalSum = negativeResult.getSum();
+            if (!"0".equals(negativeResult.getSum()) && !finalSum.startsWith("-")) {
+                finalSum = "-" + negativeResult.getSum();
             }
-            return new AdditionResult(finalSum, negativeResult.steps);
+            return new AdditionResult(finalSum, negativeResult.getSteps());
         }
     }
 
     private String combineSumDigits(List<IntermediateAdditionResult> steps, StringBuilder sum) {
         for (int index = steps.size() - 1; index >= 0; index--) {
-            sum.append(steps.get(index).digit);
+            sum.append(steps.get(index).getDigit());
         }
         String finalSum = sum.toString();
         if (BigInteger.ZERO.equals(new BigInteger(finalSum))) {
@@ -189,7 +158,7 @@ public class IntegerAddition extends Operation {
     // TODO Speaking honestly we do the Formatter's job right here so we mixed 'math' and 'test' concers. Which is SRP & high cohesion principles violation. :(
     // Can we think out how to follow that principles? Maybe you could try to xomehow decouple, extract this into separate, maybe special formatter of addition? Then we could look what GOF pattern can be employed (Strategy?, Bridge?)
     protected String formatOutput(char operationSign) {
-        String result = "";
+        String result;
         String sum = getResult();
         if (operationSign == '-') {
             secondAddend = BigInteger.valueOf(-1).multiply(secondAddend);

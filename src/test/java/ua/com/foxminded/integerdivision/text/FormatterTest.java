@@ -54,35 +54,4 @@ public class FormatterTest {
         String actual = underTest.deleteLeadingZeros(inputWithLeadingZeros);
         assertEquals(expected, actual);
     }
-
-    @Test
-    void shouldnotThrowExceptionWhenIndexInRange() {
-        BigInteger number = new BigInteger("1234567890");
-        int index = 9;
-        underTest.checkIndexRange(number, index);
-    }
-
-    @Test
-    void shouldThrowExceptionWhenIndexOutOfRange() {
-        BigInteger number = new BigInteger("1234567890");
-        int index = 10;
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(number, index));
-        assertEquals(Formatter.ILLEGAL_INDEX_MESSAGE, exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNullArgument() {
-        int index = 10;
-        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(null, index));
-        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
-    }
-
-    @Test
-    void shouldFindDigitAtIndex() {
-        BigInteger number = new BigInteger("1234567890");
-        int index = 9;
-        int actual = underTest.findDigitAtIndex(number, index);
-        int expected = 0;
-        assertEquals(expected, actual);
-    }
 }

@@ -1,8 +1,7 @@
 package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.IntegerAddition;
-import ua.com.foxminded.integerdivision.math.Operation;
+import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
 
 import java.math.BigInteger;
 
@@ -288,5 +287,38 @@ public class IntegerAdditionTest {
         String expected = "{\"sum\":\"9001\",\"steps\":[{\"digit\":1,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":9,\"memorized\":-1},{\"digit\":0,\"memorized\":0}]}";
         assertEquals(expected, actual);
     }
+
+
+//
+//    @Test
+//    void shouldnotThrowExceptionWhenIndexInRange() {
+//        BigInteger number = new BigInteger("1234567890");
+//        int index = 9;
+//        underTest.checkIndexRange(number, index);
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWhenIndexOutOfRange() {
+//        BigInteger number = new BigInteger("1234567890");
+//        int index = 10;
+//        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(number, index));
+//        assertEquals(Formatter.ILLEGAL_INDEX_MESSAGE, exception.getMessage());
+//    }
+//
+//    @Test
+//    void shouldThrowExceptionWhenNullArgument() {
+//        int index = 10;
+//        Throwable exception = assertThrows(IllegalArgumentException.class, () -> underTest.checkIndexRange(null, index));
+//        assertEquals(Operation.NULL_ARGUMENT_MESSAGE, exception.getMessage());
+//    }
+//
+//    @Test
+//    void shouldFindDigitAtIndex() {
+//        BigInteger number = new BigInteger("1234567890");
+//        int index = 9;
+//        int actual = underTest.findDigitAtIndex(number, index);
+//        int expected = 0;
+//        assertEquals(expected, actual);
+//    }
 
 }

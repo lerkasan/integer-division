@@ -1,6 +1,6 @@
-package ua.com.foxminded.integerdivision.math;
+package ua.com.foxminded.integerdivision.math.division;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import ua.com.foxminded.integerdivision.math.Operation;
 import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 // TODO Is it necessary to have dependency on the 'text' package inside the 'math' ? Good code avoids such things. Math should be self-contained.
 public class IntegerDivision extends Operation {
     protected static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
@@ -18,6 +19,8 @@ public class IntegerDivision extends Operation {
 
     private Formatter formatter = new Formatter();
 
+    public IntegerDivision() {}
+
     public IntegerDivision(BigInteger dividend, BigInteger divisor) {
         super(2,0, Arrays.asList(dividend, divisor));
         this.dividend = dividend;
@@ -25,78 +28,20 @@ public class IntegerDivision extends Operation {
         this.result = calculate();
     }
 
+    // my TODO leave this result BigInteger
     public String getResult() {
-        return result.quotient.toString();
-    }
-
-    protected class DivisionResult extends Result {
-        @JsonProperty
-        private BigInteger quotient;
-
-        @JsonProperty
-        private BigInteger remainder;
-
-        @JsonProperty
-        private List<IntermediateDivisionResult> steps;
-
-        private DivisionResult() {}
-
-        private DivisionResult(BigInteger quotient, BigInteger remainder, List<IntermediateDivisionResult> steps) {
-            this.quotient = quotient;
-            this.remainder = remainder;
-            this.steps = steps;
-        }
-
-        protected BigInteger getQuotient() {
-            return quotient;
-        }
-
-        protected BigInteger getRemainder() {
-            return remainder;
-        }
-    }
-
-    // TODO probably we have no other options unless to define this class as 'public' so that other classes (including Formatter) can use it
-    private class IntermediateDivisionResult extends Result{
-        @JsonProperty
-        private BigInteger minuend;
-
-        @JsonProperty
-        private BigInteger subtrahend;
-
-        @JsonProperty
-        private BigInteger difference;
-
-        @JsonProperty
-        private BigInteger quotient;
-
-
-        private IntermediateDivisionResult() {
-            this.minuend = BigInteger.ZERO;
-            this.subtrahend = BigInteger.ZERO;
-            this.difference = BigInteger.ZERO;
-            this.quotient = BigInteger.ZERO;
-            this.rearIndex = 0;
-        }
-
-        private IntermediateDivisionResult(BigInteger minuend, BigInteger subtrahend, BigInteger difference, BigInteger quotient, int rearIndex) {
-            this.minuend = minuend;
-            this.subtrahend = subtrahend;
-            this.difference = difference;
-            this.quotient = quotient;
-            this.rearIndex = rearIndex;
-        }
+        return result.getQuotient().toString();
     }
 
     private BigInteger findFirstDigits(BigInteger number, int index) {
-        formatter.checkIndexRange(number, index);
+        checkIndexRange(number, index);
         BigInteger absoluteNumber = number.abs();
         String firstDigits = String.valueOf(absoluteNumber).substring(0, index + 1);
         return new BigInteger(firstDigits);
     }
 
     @Override
-    protected DivisionResult calculate() {
+    public DivisionResult calculate() {
         if ((dividend == null) || (divisor == null)) {
             throw new IllegalArgumentException(NULL_ARGUMENT_MESSAGE);
         }
@@ -127,43 +72,43 @@ public class IntegerDivision extends Operation {
         do {
             IntermediateDivisionResult stepResult = new IntermediateDivisionResult();
             if (currentDividendDigitRearIndex == divisorLength - 1) { // first step
-                stepResult.minuend = findFirstDigits(absoluteDividend, currentDividendDigitRearIndex);
+                stepResult.setMinuend(findFirstDigits(absoluteDividend, currentDividendDigitRearIndex));
 
-                if (absoluteDivisor.compareTo(stepResult.minuend) > 0) {
+                if (absoluteDivisor.compareTo(stepResult.getMinuend()) > 0) {
                     currentDividendDigitRearIndex++;
-                    int nextDigitInDividend = formatter.findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
-                    stepResult.minuend = BigInteger.TEN.multiply(stepResult.minuend).add(BigInteger.valueOf(nextDigitInDividend));
+                    int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                    stepResult.setMinuend(BigInteger.TEN.multiply(stepResult.getMinuend()).add(BigInteger.valueOf(nextDigitInDividend)));
                 }
-                stepResult.difference = stepResult.minuend;
+                stepResult.setDifference(stepResult.getMinuend());
             } else {
-                stepResult.difference = previousRemainder;
-                int nextDigitInDividend = formatter.findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
-                if (BigInteger.ZERO.equals(stepResult.difference)) {
-                    stepResult.minuend = BigInteger.valueOf(nextDigitInDividend);
+                stepResult.setDifference(previousRemainder);
+                int nextDigitInDividend = findDigitAtIndex(absoluteDividend, currentDividendDigitRearIndex);
+                if (BigInteger.ZERO.equals(stepResult.getDifference())) {
+                    stepResult.setMinuend(BigInteger.valueOf(nextDigitInDividend));
                 } else {
-                    stepResult.minuend = BigInteger.TEN.multiply(stepResult.difference).add(BigInteger.valueOf(nextDigitInDividend));
+                    stepResult.setMinuend(BigInteger.TEN.multiply(stepResult.getDifference()).add(BigInteger.valueOf(nextDigitInDividend)));
                 }
             }
-            stepResult.quotient = stepResult.minuend.divide(absoluteDivisor);
-            stepResult.subtrahend = stepResult.quotient.multiply(absoluteDivisor);
-            stepResult.difference = stepResult.minuend.subtract(stepResult.subtrahend);
-            stepResult.rearIndex = currentDividendDigitRearIndex;
-            previousRemainder = stepResult.difference;
+            stepResult.setQuotient(stepResult.getMinuend().divide(absoluteDivisor));
+            stepResult.setSubtrahend(stepResult.getQuotient().multiply(absoluteDivisor));
+            stepResult.setDifference(stepResult.getMinuend().subtract(stepResult.getSubtrahend()));
+            stepResult.setRearIndex(currentDividendDigitRearIndex);
+            previousRemainder = stepResult.getDifference();
             stepResults.add(stepResult);
             currentDividendDigitRearIndex++;
         } while (currentDividendDigitRearIndex <= dividendLength - 1);
         boolean isResultNegativeInteger = (BigInteger.ZERO.compareTo(dividend) > 0) ^ (BigInteger.ZERO.compareTo(divisor) > 0);
         if (isResultNegativeInteger) {
-            stepResults.get(0).quotient = BigInteger.valueOf(-1).multiply(stepResults.get(0).quotient);
+            stepResults.get(0).setQuotient(BigInteger.valueOf(-1).multiply(stepResults.get(0).getQuotient()));
         }
         if (BigInteger.ZERO.compareTo(dividend) > 0) {
-           result.remainder = BigInteger.valueOf(-1).multiply(stepResults.get(stepResults.size() - 1).difference);
-           stepResults.get(stepResults.size() - 1).difference = result.remainder;
+           result.setRemainder(BigInteger.valueOf(-1).multiply(stepResults.get(stepResults.size() - 1).getDifference()));
+           stepResults.get(stepResults.size() - 1).setDifference(result.getRemainder());
         } else {
-            result.remainder = stepResults.get(stepResults.size() - 1).difference;
+            result.setRemainder(stepResults.get(stepResults.size() - 1).getDifference());
         }
         BigInteger wholeQuotient = calculateWholeQuotient(stepResults);
-        return new DivisionResult(wholeQuotient, result.remainder, stepResults);
+        return new DivisionResult(wholeQuotient, result.getRemainder(), stepResults);
     }
 
     private BigInteger calculateWholeQuotient(List<IntermediateDivisionResult> stepResults) {
@@ -172,9 +117,9 @@ public class IntegerDivision extends Operation {
         }
         BigInteger quotient = BigInteger.ZERO;
         for (IntermediateDivisionResult step : stepResults) {
-            quotient = BigInteger.TEN.multiply(quotient).add(step.quotient.abs());
+            quotient = BigInteger.TEN.multiply(quotient).add(step.getQuotient().abs());
         }
-        if (BigInteger.ZERO.compareTo(stepResults.get(0).quotient) > 0) {
+        if (BigInteger.ZERO.compareTo(stepResults.get(0).getQuotient()) > 0) {
             quotient = BigInteger.valueOf(-1).multiply(quotient);
         }
         return quotient;
@@ -183,17 +128,17 @@ public class IntegerDivision extends Operation {
     @Override
     public String toString() {
         StringBuilder resultToPrint = new StringBuilder();
-        List<IntermediateDivisionResult> stepResults = result.steps;
+        List<IntermediateDivisionResult> stepResults = result.getSteps();
         BigInteger absoluteDividend = dividend.abs();
         int absoluteDividendLength = absoluteDividend.toString().length();
         resultToPrint.append("_" + dividend + " | " + divisor + "\n");
         int stepCounter = 0;
         for (IntermediateDivisionResult step : stepResults) {
-            int minuendLength = String.valueOf(step.minuend).length();
-            int subtrahendLength = String.valueOf(step.subtrahend).length();
-            int remainderLength = String.valueOf(step.difference).length();
-            int offsetMinuend = step.rearIndex - minuendLength + 1;
-            int offsetSubtrahend = step.rearIndex - subtrahendLength + 1;
+            int minuendLength = String.valueOf(step.getMinuend()).length();
+            int subtrahendLength = String.valueOf(step.getSubtrahend()).length();
+            int remainderLength = String.valueOf(step.getDifference()).length();
+            int offsetMinuend = step.getRearIndex() - minuendLength + 1;
+            int offsetSubtrahend = step.getRearIndex() - subtrahendLength + 1;
             int offsetRemainder = offsetMinuend +  minuendLength - remainderLength + 1;
             String additionalOffsetForVertical = "";
             if (BigInteger.ZERO.compareTo(dividend) > 0) {
@@ -202,27 +147,27 @@ public class IntegerDivision extends Operation {
                 offsetRemainder++;
                 additionalOffsetForVertical = " ";
             }
-            if ((stepCounter > 0) && (!BigInteger.ZERO.equals(step.subtrahend))) {
-                resultToPrint.append(formatter.getOffsetSpaces(offsetMinuend) + "_" + step.minuend + "\n");
+            if ((stepCounter > 0) && (!BigInteger.ZERO.equals(step.getSubtrahend()))) {
+                resultToPrint.append(formatter.getOffsetSpaces(offsetMinuend) + "_" + step.getMinuend() + "\n");
             }
-            if ((!BigInteger.ZERO.equals(step.subtrahend)) || (stepResults.size() == 1)) {
+            if ((!BigInteger.ZERO.equals(step.getSubtrahend())) || (stepResults.size() == 1)) {
                 if (stepCounter == 0) {
                     BigInteger quotient = calculateWholeQuotient(stepResults);
                     int quotientLength = String.valueOf(quotient).length();
-                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend
+                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.getSubtrahend()
                             + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1));
                     resultToPrint.append(additionalOffsetForVertical + "|" + formatter.getLine(quotientLength + 2) + "\n");
                     resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength)
                             + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1)
                             + additionalOffsetForVertical + "| " + quotient + "\n");
                 } else {
-                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.subtrahend);
+                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.getSubtrahend());
                     resultToPrint.append("\n" + formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength) + "\n");
                 }
             }
             stepCounter++;
             if (stepCounter == stepResults.size()) {
-                resultToPrint.append(formatter.getOffsetSpaces(offsetRemainder) + step.difference);
+                resultToPrint.append(formatter.getOffsetSpaces(offsetRemainder) + step.getDifference());
             }
         }
         return resultToPrint.toString();

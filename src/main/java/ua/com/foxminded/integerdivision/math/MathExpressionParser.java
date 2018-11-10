@@ -1,5 +1,9 @@
 package ua.com.foxminded.integerdivision.math;
 
+import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
+import ua.com.foxminded.integerdivision.math.division.IntegerDivision;
+import ua.com.foxminded.integerdivision.math.multiplication.IntegerMultiplication;
+import ua.com.foxminded.integerdivision.math.subtraction.IntegerSubtraction;
 import ua.com.foxminded.integerdivision.text.Formatter;
 
 import java.math.BigInteger;
@@ -178,8 +182,8 @@ public class MathExpressionParser {
         Deque<String> operandStack = new ArrayDeque<>();
         Formatter formatter = new Formatter();
         String operand = "";
-        String firstOperand = "";
-        String secondOperand = "";
+        String firstOperand;
+        String secondOperand;
         int step = 0;
         int position = 0;
         for (char postfixChar : postfixChars) {
@@ -199,7 +203,7 @@ public class MathExpressionParser {
                         throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + postfixChar + AT_POSITION + position + "\n"
                                 + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
                     }
-                    String result = "";
+                    String result;
                     switch (postfixChar) {
                         case '+':
                             IntegerAddition addition = new IntegerAddition(new BigInteger(firstOperand), new BigInteger(secondOperand));
