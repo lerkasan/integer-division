@@ -1,7 +1,8 @@
-package ua.com.foxminded.integerdivision.math.addition;
+package ua.com.foxminded.integerdivision.math.operation.addition;
 
-import ua.com.foxminded.integerdivision.math.Operation;
-import ua.com.foxminded.integerdivision.text.Formatter;
+import ua.com.foxminded.integerdivision.math.operation.Operation;
+import ua.com.foxminded.integerdivision.text.factory.FormatterFactory;
+import ua.com.foxminded.integerdivision.text.formatter.Formatter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -13,17 +14,35 @@ public class IntegerAddition extends Operation {
     private BigInteger secondAddend;
     private AdditionResult result;
 
-    private Formatter formatter = new Formatter();
-
     public IntegerAddition(BigInteger firstAddend, BigInteger secondAddend) {
         super(2, 1, Arrays.asList(firstAddend, secondAddend));
         this.firstAddend = firstAddend;
         this.secondAddend = secondAddend;
         this.result = calculate();
     }
-    
-    public BigInteger getResult() {
+
+    public AdditionResult getResult() {
+        return result;
+    }
+
+    public BigInteger getNumericResult() {
         return result.getSum();
+    }
+
+    public BigInteger getFirstAddend() {
+        return firstAddend;
+    }
+
+    public void setFirstAddend(BigInteger firstAddend) {
+        this.firstAddend = firstAddend;
+    }
+
+    public BigInteger getSecondAddend() {
+        return secondAddend;
+    }
+
+    public void setSecondAddend(BigInteger secondAddend) {
+        this.secondAddend = secondAddend;
     }
 
     @Override
@@ -125,7 +144,7 @@ public class IntegerAddition extends Operation {
             }
             StringBuilder sum = new StringBuilder();
             String finalSum = combineSumDigits(steps, sum);
-            finalSum = formatter.deleteLeadingZeros(finalSum);
+            finalSum = deleteLeadingZeros(finalSum);
             if ((firstAddend.compareTo(secondAddend) < 0) && (!finalSum.startsWith("-"))) {
                 finalSum = "-" + finalSum;
             }
@@ -151,36 +170,10 @@ public class IntegerAddition extends Operation {
         return finalSum;
     }
 
+    @Override
     public String toString() {
-        return formatOutput('+');
-    }
-
-    // TODO Speaking honestly we do the Formatter's job right here so we mixed 'math' and 'test' concers. Which is SRP & high cohesion principles violation. :(
-    // Can we think out how to follow that principles? Maybe you could try to xomehow decouple, extract this into separate, maybe special formatter of addition? Then we could look what GOF pattern can be employed (Strategy?, Bridge?)
-    protected String formatOutput(char operationSign) {
-        String result;
-        String sum = getResult().toString();
-        if (operationSign == '-') {
-            secondAddend = BigInteger.valueOf(-1).multiply(secondAddend);
-        }
-        int firstAddendLength = firstAddend.toString().length();
-        int secondAddendLength = secondAddend.toString().length();
-        int firstAddendOffset = sum.length() - firstAddendLength;
-        int secondAddendOffset = sum.length() - secondAddendLength;
-        int maxLengthOfAddend = firstAddendLength >= secondAddendLength ? firstAddendLength : secondAddendLength;
-        if (sum.length() >= maxLengthOfAddend) {
-            result = formatter.getOffsetSpaces(firstAddendOffset + 2) + firstAddend + "\n"
-                    + formatter.getOffsetSpaces(secondAddendOffset + 2) + secondAddend + "\n"
-                    + operationSign + " " + formatter.getLine(sum.length()) + "\n"
-                    + formatter.getOffsetSpaces(2) + sum;
-        } else {
-            firstAddendOffset = maxLengthOfAddend - firstAddendLength;
-            secondAddendOffset = maxLengthOfAddend - secondAddendLength;
-            result = formatter.getOffsetSpaces(firstAddendOffset + 2) + firstAddend + "\n"
-                    + formatter.getOffsetSpaces(secondAddendOffset + 2) + secondAddend + "\n"
-                    + operationSign + " " + formatter.getLine(maxLengthOfAddend) + "\n"
-                    + formatter.getOffsetSpaces(maxLengthOfAddend - sum.length() + 2) + sum;
-        }
-        return result;
+        FormatterFactory formatterFactory = FormatterFactory.getClassicFormatterFactory();
+        Formatter formatter = formatterFactory.getAdditionFormatter();
+        return formatter.formatOutput(this);
     }
 }

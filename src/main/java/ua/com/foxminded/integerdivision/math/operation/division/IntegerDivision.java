@@ -1,7 +1,8 @@
-package ua.com.foxminded.integerdivision.math.division;
+package ua.com.foxminded.integerdivision.math.operation.division;
 
-import ua.com.foxminded.integerdivision.math.Operation;
-import ua.com.foxminded.integerdivision.text.Formatter;
+import ua.com.foxminded.integerdivision.math.operation.Operation;
+import ua.com.foxminded.integerdivision.text.factory.FormatterFactory;
+import ua.com.foxminded.integerdivision.text.formatter.Formatter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -9,15 +10,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO Is it necessary to have dependency on the 'text' package inside the 'math' ? Good code avoids such things. Math should be self-contained.
 public class IntegerDivision extends Operation {
     public static final String DIVISION_BY_ZERO_MESSAGE = "Can't divide by zero.";
 
     private BigInteger dividend;
     private BigInteger divisor;
     private DivisionResult result;
-
-    private Formatter formatter = new Formatter();
 
     public IntegerDivision(BigInteger dividend, BigInteger divisor) {
         super(2,0, Arrays.asList(dividend, divisor));
@@ -26,8 +24,28 @@ public class IntegerDivision extends Operation {
         this.result = calculate();
     }
 
-    public BigInteger getResult() {
+    public DivisionResult getResult() {
+        return result;
+    }
+
+    public BigInteger getNumericResult() {
         return result.getQuotient();
+    }
+
+    public BigInteger getDividend() {
+        return dividend;
+    }
+
+    public void setDividend(BigInteger dividend) {
+        this.dividend = dividend;
+    }
+
+    public BigInteger getDivisor() {
+        return divisor;
+    }
+
+    public void setDivisor(BigInteger divisor) {
+        this.divisor = divisor;
     }
 
     private BigInteger findFirstDigits(BigInteger number, int index) {
@@ -124,49 +142,8 @@ public class IntegerDivision extends Operation {
 
     @Override
     public String toString() {
-        StringBuilder resultToPrint = new StringBuilder();
-        List<IntermediateDivisionResult> stepResults = result.getSteps();
-        BigInteger absoluteDividend = dividend.abs();
-        int absoluteDividendLength = absoluteDividend.toString().length();
-        resultToPrint.append("_" + dividend + " | " + divisor + "\n");
-        int stepCounter = 0;
-        for (IntermediateDivisionResult step : stepResults) {
-            int minuendLength = String.valueOf(step.getMinuend()).length();
-            int subtrahendLength = String.valueOf(step.getSubtrahend()).length();
-            int remainderLength = String.valueOf(step.getDifference()).length();
-            int offsetMinuend = step.getRearIndex() - minuendLength + 1;
-            int offsetSubtrahend = step.getRearIndex() - subtrahendLength + 1;
-            int offsetRemainder = offsetMinuend +  minuendLength - remainderLength + 1;
-            String additionalOffsetForVertical = "";
-            if (BigInteger.ZERO.compareTo(dividend) > 0) {
-                offsetMinuend++;
-                offsetSubtrahend++;
-                offsetRemainder++;
-                additionalOffsetForVertical = " ";
-            }
-            if ((stepCounter > 0) && (!BigInteger.ZERO.equals(step.getSubtrahend()))) {
-                resultToPrint.append(formatter.getOffsetSpaces(offsetMinuend) + "_" + step.getMinuend() + "\n");
-            }
-            if ((!BigInteger.ZERO.equals(step.getSubtrahend())) || (stepResults.size() == 1)) {
-                if (stepCounter == 0) {
-                    BigInteger quotient = calculateWholeQuotient(stepResults);
-                    int quotientLength = String.valueOf(quotient).length();
-                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.getSubtrahend()
-                            + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1));
-                    resultToPrint.append(additionalOffsetForVertical + "|" + formatter.getLine(quotientLength + 2) + "\n");
-                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength)
-                            + formatter.getOffsetSpaces(absoluteDividendLength - subtrahendLength - offsetSubtrahend + 1)
-                            + additionalOffsetForVertical + "| " + quotient + "\n");
-                } else {
-                    resultToPrint.append(formatter.getOffsetSpaces(offsetSubtrahend + 1) + step.getSubtrahend());
-                    resultToPrint.append("\n" + formatter.getOffsetSpaces(offsetSubtrahend + 1) + formatter.getLine(subtrahendLength) + "\n");
-                }
-            }
-            stepCounter++;
-            if (stepCounter == stepResults.size()) {
-                resultToPrint.append(formatter.getOffsetSpaces(offsetRemainder) + step.getDifference());
-            }
-        }
-        return resultToPrint.toString();
+        FormatterFactory formatterFactory = FormatterFactory.getClassicFormatterFactory();
+        Formatter formatter = formatterFactory.getDivisionFormatter();
+        return formatter.formatOutput(this);
     }
 }

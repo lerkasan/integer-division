@@ -1,7 +1,6 @@
 package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.MathExpressionParser;
 
 import java.math.BigInteger;
 

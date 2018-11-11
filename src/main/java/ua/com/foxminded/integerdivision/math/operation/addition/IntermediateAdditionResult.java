@@ -1,7 +1,7 @@
-package ua.com.foxminded.integerdivision.math.addition;
+package ua.com.foxminded.integerdivision.math.operation.addition;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.foxminded.integerdivision.math.Result;
+import ua.com.foxminded.integerdivision.math.operation.Result;
 
 public class IntermediateAdditionResult extends Result {
     @JsonProperty

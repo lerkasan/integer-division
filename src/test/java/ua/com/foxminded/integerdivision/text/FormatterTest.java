@@ -1,17 +1,14 @@
 package ua.com.foxminded.integerdivision.text;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.Operation;
-import ua.com.foxminded.integerdivision.text.Formatter;
-
-import java.math.BigInteger;
+import ua.com.foxminded.integerdivision.text.formatter.AdditionFormatter;
+import ua.com.foxminded.integerdivision.text.formatter.Formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FormatterTest {
 
-    private Formatter underTest = new Formatter();
+    private Formatter underTest = new AdditionFormatter();
 
     @Test
     void shouldReturnRepeatingSymbols() {
@@ -44,14 +41,6 @@ public class FormatterTest {
         int length = 8;
         String expected = "--------";
         String actual = underTest.getLine(length);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void shouldDeleteLeadingZeros() {
-        String inputWithLeadingZeros = "00000726035000325002320";
-        String expected = "726035000325002320";
-        String actual = underTest.deleteLeadingZeros(inputWithLeadingZeros);
         assertEquals(expected, actual);
     }
 }

@@ -1,10 +1,11 @@
 package ua.com.foxminded.integerdivision.math;
 
-import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
-import ua.com.foxminded.integerdivision.math.division.IntegerDivision;
-import ua.com.foxminded.integerdivision.math.multiplication.IntegerMultiplication;
-import ua.com.foxminded.integerdivision.math.subtraction.IntegerSubtraction;
-import ua.com.foxminded.integerdivision.text.Formatter;
+import ua.com.foxminded.integerdivision.math.operation.addition.IntegerAddition;
+import ua.com.foxminded.integerdivision.math.operation.division.IntegerDivision;
+import ua.com.foxminded.integerdivision.math.operation.multiplication.IntegerMultiplication;
+import ua.com.foxminded.integerdivision.math.operation.subtraction.IntegerSubtraction;
+import ua.com.foxminded.integerdivision.text.factory.FormatterFactory;
+import ua.com.foxminded.integerdivision.text.formatter.Formatter;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -62,17 +63,16 @@ public class MathExpressionParser {
         boolean isPreviousOperator = true;
         boolean isPreviousOpeningParentheses = false;
         boolean isPreviousClosingParentheses = false;
-        Formatter formatter = new Formatter();
         for (char infixChar : infixChars) {
             position++;
             if (Character.isLetter(infixChar)) {
                 throw new IllegalArgumentException(LETTERS_NOT_ALLOWED + infixChar + AT_POSITION + position + "\n"
-                        + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                        + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
             }
             if (Character.isDigit(infixChar)) {
                 if (isPreviousClosingParentheses) {
                     throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + AT_POSITION + position + "\n"
-                            + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                            + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                 }
                 postfix += infixChar;
                 isPreviousOperator = false;
@@ -84,7 +84,7 @@ public class MathExpressionParser {
                     case '(':
                         if ((!isPreviousOperator) && (!isPreviousOpeningParentheses)){
                             throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + AT_POSITION + position + "\n"
-                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                    + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                         }
                         operatorStack.push(infixChar);
                         isPreviousOperator = false;
@@ -95,7 +95,7 @@ public class MathExpressionParser {
                     case ')':
                         if (parenthesesCounter <= 0) {
                             throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER + position + "\n"
-                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                    + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                         }
                         isPreviousOperator = false;
                         isPreviousOpeningParentheses = false;
@@ -114,7 +114,7 @@ public class MathExpressionParser {
                     case '/':
                         if ((isPreviousOperator) && (infixChar != '-')) {
                             throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + infixChar + AT_POSITION + position + "\n"
-                                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                    + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                         }
                         isPreviousOperator = true;
                         isPreviousOpeningParentheses = false;
@@ -126,16 +126,16 @@ public class MathExpressionParser {
                     case '.':
                     case ',':
                         throw new IllegalArgumentException(DECIMALS_NOT_ALLOWED + infixChar + AT_POSITION + position + "\n"
-                                + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                     default:
                         throw new IllegalArgumentException(INVALID_SYMBOL + infixChar + AT_POSITION + position + "\n"
-                                + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                 }
             }
         }
         if (parenthesesCounter != 0) {
             throw new IllegalArgumentException(WRONG_PARENTHESES_ORDER + position + "\n"
-                    + alteredInfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                    + alteredInfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
         }
         while (!operatorStack.isEmpty()) {
             postfix = postfix.trim() + " " + operatorStack.pop() + " ";
@@ -174,13 +174,25 @@ public class MathExpressionParser {
         return outputToPostfix.toString();
     }
 
+    // when we pass a formatterFactory parameter it is obvious that we want verbose output
+    public BigInteger evaluatePostfixExpression(String postfix, FormatterFactory formatterFactory) {
+        boolean verbose = true;
+        return evaluatePostfixExpression(postfix, formatterFactory, verbose);
+    }
+
+    // to maintain compliance with existing unit tests we will use classicFormatterFactory as default formatter factory
     public BigInteger evaluatePostfixExpression(String postfix, boolean verbose) {
+        FormatterFactory formatterFactory = FormatterFactory.getClassicFormatterFactory();
+        return evaluatePostfixExpression(postfix, formatterFactory, verbose);
+    }
+
+    public BigInteger evaluatePostfixExpression(String postfix, FormatterFactory formatterFactory, boolean verbose) {
         if (postfix == null) {
             throw new IllegalArgumentException(NULL_POSTFIX);
         }
         char[] postfixChars = postfix.toCharArray();
         Deque<BigInteger> operandStack = new ArrayDeque<>();
-        Formatter formatter = new Formatter();
+        Formatter formatter;
         String operand = "";
         BigInteger firstOperand;
         BigInteger secondOperand;
@@ -201,49 +213,53 @@ public class MathExpressionParser {
                         firstOperand = operandStack.pop();
                     } else {
                         throw new IllegalArgumentException(WRONG_OPERATOR_ORDER + postfixChar + AT_POSITION + position + "\n"
-                                + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                + postfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                     }
                     BigInteger result;
                     switch (postfixChar) {
                         case '+':
                             IntegerAddition addition = new IntegerAddition(firstOperand, secondOperand);
-                            result = addition.getResult();
+                            result = addition.getNumericResult();
                             if (verbose) {
                                 step++;
+                                formatter = formatterFactory.getAdditionFormatter();
                                 System.out.printf(STEP, step);
-                                System.out.println(addition + "\n");
+                                System.out.println(formatter.formatOutput(addition) + "\n");
                             }
                             break;
                         case '-':
                             IntegerSubtraction subtraction = new IntegerSubtraction(firstOperand, secondOperand);
-                            result = subtraction.getResult();
+                            result = subtraction.getNumericResult();
                             if (verbose) {
                                 step++;
                                 System.out.printf(STEP, step);
-                                System.out.println(subtraction + "\n");
+                                formatter = formatterFactory.getSubtractionFormatter();
+                                System.out.println(formatter.formatOutput(subtraction) + "\n");
                             }
                             break;
                         case '*':
                             IntegerMultiplication multiplication = new IntegerMultiplication(firstOperand, secondOperand);
-                            result = multiplication.getResult();
+                            result = multiplication.getNumericResult();
                             if (verbose) {
                                 step++;
+                                formatter = formatterFactory.getMultiplicationFormatter();
                                 System.out.printf(STEP, step);
-                                System.out.println(multiplication + "\n");
+                                System.out.println(formatter.formatOutput(multiplication) + "\n");
                             }
                             break;
                         case '/':
                             IntegerDivision division = new IntegerDivision(firstOperand, secondOperand);
-                            result = division.getResult();
+                            result = division.getNumericResult();
                             if (verbose) {
                                 step++;
+                                formatter = formatterFactory.getDivisionFormatter();
                                 System.out.printf(STEP, step);
-                                System.out.println(division + "\n");
+                                System.out.println(formatter.formatOutput(division) + "\n");
                             }
                             break;
                         default:
                             throw new IllegalArgumentException(INVALID_SYMBOL + postfixChar + AT_POSITION + position + "\n"
-                                    + postfix + "\n" + formatter.getOffsetSpaces(position-1) + "^");
+                                    + postfix + "\n" + Formatter.getOffsetSpaces(position-1) + "^");
                     }
                     operandStack.push(result);
                 }
@@ -252,8 +268,22 @@ public class MathExpressionParser {
         return operandStack.pop();
     }
 
-    public BigInteger evaluate(String infix, boolean verbose) {
+    public BigInteger evaluate(String infix, FormatterFactory formatterFactory, boolean verbose) {
         String postfix = convertInfixToPostfix(infix);
-        return evaluatePostfixExpression(postfix, verbose);
+        return evaluatePostfixExpression(postfix, formatterFactory, verbose);
+    }
+
+    // when we pass a formatterFactory parameter it is obvious that we want verbose output
+    public BigInteger evaluate(String infix, FormatterFactory formatterFactory) {
+        boolean verbose = true;
+        String postfix = convertInfixToPostfix(infix);
+        return evaluatePostfixExpression(postfix, formatterFactory, verbose);
+    }
+
+    // to maintain compliance with existing unit tests we will use classicFormatterFactory as default formatter factory
+    public BigInteger evaluate(String infix, boolean verbose) {
+        FormatterFactory formatterFactory = FormatterFactory.getClassicFormatterFactory();
+        String postfix = convertInfixToPostfix(infix);
+        return evaluatePostfixExpression(postfix, formatterFactory, verbose);
     }
 }

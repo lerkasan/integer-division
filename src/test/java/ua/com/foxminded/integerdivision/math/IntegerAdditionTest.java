@@ -1,7 +1,8 @@
 package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.addition.IntegerAddition;
+import ua.com.foxminded.integerdivision.math.operation.Operation;
+import ua.com.foxminded.integerdivision.math.operation.addition.IntegerAddition;
 
 import java.math.BigInteger;
 
@@ -26,7 +27,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -44,7 +45,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -62,7 +63,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -80,7 +81,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -98,7 +99,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -116,7 +117,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -134,7 +135,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -152,7 +153,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -170,7 +171,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -188,7 +189,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -206,7 +207,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -224,7 +225,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -242,7 +243,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -260,7 +261,7 @@ public class IntegerAdditionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = firstAddend.add(secondAddend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -287,7 +288,6 @@ public class IntegerAdditionTest {
         String expected = "{\"sum\":9001,\"steps\":[{\"digit\":1,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":0,\"memorized\":-1},{\"digit\":9,\"memorized\":-1},{\"digit\":0,\"memorized\":0}]}";
         assertEquals(expected, actual);
     }
-
 
     @Test
     void shouldnotThrowExceptionWhenIndexInRange() {

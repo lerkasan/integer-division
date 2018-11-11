@@ -2,7 +2,8 @@ package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.subtraction.IntegerSubtraction;
+import ua.com.foxminded.integerdivision.math.operation.Operation;
+import ua.com.foxminded.integerdivision.math.operation.subtraction.IntegerSubtraction;
 
 import java.math.BigInteger;
 
@@ -27,7 +28,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -45,7 +46,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -63,7 +64,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -81,7 +82,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -99,7 +100,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -117,7 +118,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -135,7 +136,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -153,7 +154,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -171,7 +172,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -189,7 +190,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -207,7 +208,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -225,7 +226,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -243,7 +244,7 @@ public class IntegerSubtractionTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = minuend.subtract(subtrahend);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 

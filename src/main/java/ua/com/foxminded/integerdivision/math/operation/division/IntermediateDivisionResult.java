@@ -1,11 +1,10 @@
-package ua.com.foxminded.integerdivision.math.division;
+package ua.com.foxminded.integerdivision.math.operation.division;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ua.com.foxminded.integerdivision.math.Result;
+import ua.com.foxminded.integerdivision.math.operation.Result;
 
 import java.math.BigInteger;
 
-// TODO probably we have no other options unless to define this class as 'public' so that other classes (including Formatter) can use it
 public class IntermediateDivisionResult extends Result {
     @JsonProperty
     private BigInteger minuend;

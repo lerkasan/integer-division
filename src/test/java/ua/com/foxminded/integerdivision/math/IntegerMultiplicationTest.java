@@ -1,7 +1,8 @@
 package ua.com.foxminded.integerdivision.math;
 
 import org.junit.jupiter.api.Test;
-import ua.com.foxminded.integerdivision.math.multiplication.IntegerMultiplication;
+import ua.com.foxminded.integerdivision.math.operation.Operation;
+import ua.com.foxminded.integerdivision.math.operation.multiplication.IntegerMultiplication;
 
 import java.math.BigInteger;
 
@@ -26,7 +27,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -44,7 +45,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -62,7 +63,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -89,7 +90,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -129,7 +130,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -151,7 +152,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -173,7 +174,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 
@@ -199,7 +200,7 @@ public class IntegerMultiplicationTest {
         assertEquals(expectedOutput, actualOutput);
 
         BigInteger expected = multiplicand.multiply(multiplier);
-        BigInteger actual = underTest.getResult();
+        BigInteger actual = underTest.getNumericResult();
         assertEquals(expected, actual);
     }
 

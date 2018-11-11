@@ -1,4 +1,4 @@
-package ua.com.foxminded.integerdivision.math;
+package ua.com.foxminded.integerdivision.math.operation;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
