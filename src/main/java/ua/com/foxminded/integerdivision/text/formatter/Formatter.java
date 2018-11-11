@@ -53,7 +53,8 @@ public abstract class Formatter {
         try {
             json = objectMapper.writeValueAsString(result);
         } catch (JsonProcessingException e) {
-            //my TODO User-friendly output
+            System.out.println(e.getMessage());
+            System.out.println("Technical details: ");
             e.printStackTrace();
         }
         return json;
